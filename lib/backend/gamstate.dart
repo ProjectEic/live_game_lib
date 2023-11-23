@@ -7,38 +7,36 @@ import 'package:live_game_lib/backend/room.dart';
 
 class GameView extends StatefulWidget {
 
-  final String roomid;
+  final Room room;
 
-  const GameView(this.roomid, {super.key});
+  const GameView(this.room, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return GameState();
+    return _GameState(room);
   }
 }
 
 
-class GameState extends State<GameView> {
-  Room? room;
+class _GameState extends State<GameView> {
+  Room room;
 
-  void loadRoom() async {
-    room = Room(widget.roomid);
-    room!.addDataListener((data) {
-      setState(() { 
-      });
-    });
-    setState(() { 
-    });
-  }
+  _GameState(this.room);
 
   @override
   Widget build(BuildContext context) {
-    if (room == null) {
-      loadRoom();
-      return GameManager.instance.roomLoadingWidget;
+    if (!room.joined(GameManager.instance.username)) {
+      room.addDataListener(
+        (data) { setState(() {}); }
+      );
+      room.join(GameManager.instance.username);
+      setState(() {});
     }
-    String gameName = room!.data["gameName"];
+    String? gameName = room.data["name"] as String?;
+    if (gameName == null) {
+      return GameManager.instance.roomNotFoundWidget;
+    }
     Game game = GameManager.instance.getGame(gameName);
-    return game.screen(room!);
+    return game.screen(room);
   }
 }

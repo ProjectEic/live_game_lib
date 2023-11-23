@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "346505806050",
+    "firebase_url": "https://gamelibary-482dd-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "gamelibary-482dd",
+    "storage_bucket": "gamelibary-482dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346505806050:android:89e14c9e27e47cec07debb",
+        "android_client_info": {
+          "package_name": "com.example.example"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIZFm4_1Ty7MvS_EWnT7U5E_kzEHVDmPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

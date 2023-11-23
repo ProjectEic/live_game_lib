@@ -11,14 +11,16 @@ class GameManager {
 
   Map<String, Game> _gameMap = {};
 
-  Widget roomLoadingWidget;
+  String username = "";
 
-  GameManager(String roomsPath, this.roomLoadingWidget, { Map<String, Game> gm = const {}}) {
+  Widget roomNotFoundWidget;
+
+  GameManager( this.roomNotFoundWidget, { Map<String, Game> gm = const {}}) {
     if (_instance != null) {
       throw Exception("GameManager already initialized");
     }
     _instance = this;
-    _roomsRef = FirebaseDatabase.instance.ref(roomsPath);
+    _roomsRef = FirebaseDatabase.instance.ref("rooms");
     _gameMap = gm;
   }
 
@@ -43,8 +45,10 @@ class GameManager {
     return Room(id, lref: _roomsRef!.child(id));
   }
 
-  Room createRoom(String id, String adminId) {
-    return Room(id, lref: _roomsRef!.child(id));
+  Future<Room> createRoom(String adminId, String gameName) async {
+    DatabaseReference ref = _roomsRef!.push();
+    await ref.set(_gameMap[gameName]!.prefabData);
+    return Room(ref.key!, lref: ref, adminId: adminId);
   }
 
 

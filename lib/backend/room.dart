@@ -8,14 +8,27 @@ class Room {
   DatabaseReference? ref;
   Map<String, dynamic> data = {};
 
-  Room(this._id, {DatabaseReference? lref}) {
+  late DatabaseReference myDataRef;
+
+  Room(this._id, {DatabaseReference? lref,  String? adminId}) {
     if (lref == null) {
       ref = FirebaseDatabase.instance.ref("rooms").child(_id);
     } else {
       ref = lref;
     }
-    adminId = ref!.child("admin").get() as String;
+    if (adminId != null) {
+      ref!.child("admin").set(adminId);
+      this.adminId = adminId;
+    } else {
+      () async {
+        this.adminId = (await ref!.child("admin").get()) as String;
+      }();
+    }
+
     addDataListener((d) { data = d;});
+    () async {
+      data = (await ref!.get()).value as Map<String, dynamic>;
+    }();
   }
 
   void addDataListener( void Function(Map<String, dynamic> data)? onValue) {
@@ -33,10 +46,18 @@ class Room {
     return adminId == uid;
   }
 
+  bool joined(String uid) {
+    return (data["players"]??Map<String, dynamic>()).containsKey(uid);
+  }
+
+  Future<void> disconnect() async {
+    await myDataRef.remove();
+  }
+
   void join(String myName) {
-    ref!.child("players").child(myName).set(true);
-
-
+    myDataRef = ref!.child("players").child(myName);
+    myDataRef.set(true);
+    myDataRef.onDisconnect().remove();
   }
   
 
