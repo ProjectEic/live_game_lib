@@ -40,6 +40,8 @@ class Room {
     });
   }
 
+  List<String> get players => ((data["players"]??Map<String, dynamic>()) as Map<String, dynamic>).keys.toList();
+
   String get id => _id;
 
   bool isAdmin(String uid) {
