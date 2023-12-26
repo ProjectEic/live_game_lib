@@ -18,39 +18,50 @@ class LobbyScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Lobby'),
       ),
-      body: Column(
-        children: [
-          Text(roomId),
-          Expanded(
-            child: ListView.builder(
-              itemCount: lobbyMembers.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(lobbyMembers[index]),
-                      if (isCreator)
-                        IconButton(
-                          onPressed: () {
-                            // Logic to remove a member
-                          },
-                          icon: const Icon(Icons.person_remove),
-                        ),
-                    ],
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                roomId,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: lobbyMembers.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(lobbyMembers[index]),
+                      trailing: isCreator
+                          ? IconButton(
+                              onPressed: () {
+                                // Logic to remove a member
+                              },
+                              icon: const Icon(Icons.person_remove),
+                            )
+                          : null,
+                    );
+                  },
+                ),
+              ),
+              if (isCreator)
+                ElevatedButton(
+                  onPressed: () {
+                    // Start button logic
+                  },
+                  child: const Text(
+                    'Start',
+                    style: TextStyle(fontSize: 16),
                   ),
-                );
-              },
-            ),
+                ),
+            ],
           ),
-          if (isCreator)
-            ElevatedButton(
-              onPressed: () {
-                // Start button logic
-              },
-              child: Text('Start'),
-            ),
-        ],
+        ),
       ),
     );
   }
