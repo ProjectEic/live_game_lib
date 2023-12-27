@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class RoomSelectionScreen extends StatelessWidget {
-  const RoomSelectionScreen({Key? key});
+  final ThemeData theme;
+
+  const RoomSelectionScreen({Key? key, required this.theme}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class RoomSelectionScreen extends StatelessWidget {
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.zero,
                   ),
-                  backgroundColor: Colors.grey.shade900,
+                  backgroundColor: theme.colorScheme.onBackground,
                 ),
                 onPressed: () {
                   // Navigate to LobbyScreen as a creator
@@ -30,24 +32,32 @@ class RoomSelectionScreen extends StatelessWidget {
                     '/lobby_screen',
                     arguments: {
                       'roomId': generateRandomRoomId(), // Generate a room ID
-                      'lobbyMembers': [], // Empty member list for a new lobby
+                      'lobbyMembers': [
+                        "me"
+                      ], // Empty member list for a new lobby
                       'isCreator': true,
                     },
                   );
                 },
-                child: const Text('Create a Room'),
+                child: Text(
+                  'Create a Room',
+                  style: TextStyle(
+                    color: theme.colorScheme.surface,
+                    fontSize: theme.textTheme.titleLarge!.fontSize,
+                  ),
+                ),
               ),
             ),
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.zero,
                   ),
-                  backgroundColor: Colors.grey.shade900,
+                  backgroundColor: theme.colorScheme.onBackground,
                 ),
                 onPressed: () {
                   // Navigate to LobbyScreen as a participant
@@ -62,7 +72,13 @@ class RoomSelectionScreen extends StatelessWidget {
                     },
                   );
                 },
-                child: const Text('Join a Room'),
+                child: Text(
+                  'Join a Room',
+                  style: TextStyle(
+                    color: theme.colorScheme.surface,
+                    fontSize: theme.textTheme.titleLarge!.fontSize,
+                  ),
+                ),
               ),
             ),
           ),

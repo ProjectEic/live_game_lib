@@ -44,10 +44,7 @@ class MyApp extends StatelessWidget {
                 ['Game 2', '/room_selection_screen'],
                 ['Game 3', '/room_selection_screen'],
               ],
-              theme: ThemeData.from(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-                textTheme: const TextTheme(),
-              ),
+              theme: Theme.of(context),
             ),
         '/lobby_screen': (context) {
           final args = ModalRoute.of(context)!.settings.arguments
@@ -59,8 +56,9 @@ class MyApp extends StatelessWidget {
             args['isCreator'],
           );
         },
-        '/room_selection_screen': (context) =>
-            RoomSelectionScreen(), // Route to RoomSelectionScreen
+        '/room_selection_screen': (context) => RoomSelectionScreen(
+              theme: Theme.of(context),
+            ),
       },
     );
   }
