@@ -1,3 +1,4 @@
+import 'package:example/fancy_background.dart';
 import 'package:example/firebase_options.dart';
 import 'package:example/gamelist.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -6,6 +7,7 @@ import 'package:live_game_lib/backend/gamemanager.dart';
 import 'package:live_game_lib/frontend/game_state_screens/home_screen.dart';
 import 'package:live_game_lib/frontend/game_state_screens/lobby_screen.dart';
 import 'package:live_game_lib/frontend/game_state_screens/room_selection_screen.dart';
+import 'package:live_game_lib/frontend/game_state_screens/join_room_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +39,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
+        '//': (context) => const FancyBackground(), // just an idea atm
         '/': (context) => Home(
               title: 'Live Games',
               games: const [
@@ -57,6 +60,10 @@ class MyApp extends StatelessWidget {
           );
         },
         '/room_selection_screen': (context) => RoomSelectionScreen(
+              theme: Theme.of(context),
+            ),
+        '/join_room_screen': (context) => JoinRoomScreen(
+              title: 'Join Room',
               theme: Theme.of(context),
             ),
       },

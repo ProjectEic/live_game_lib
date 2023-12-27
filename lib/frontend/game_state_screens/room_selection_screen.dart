@@ -63,11 +63,10 @@ class RoomSelectionScreen extends StatelessWidget {
                   // Navigate to LobbyScreen as a participant
                   Navigator.pushNamed(
                     context,
-                    '/lobby_screen',
+                    '/join_room_screen',
                     arguments: {
-                      'roomId':
-                          '', // Can be handled as input by the participant
-                      'lobbyMembers': [], // Empty member list for a new lobby
+                      'roomId': '',
+                      'lobbyMembers': [],
                       'isCreator': false,
                     },
                   );
