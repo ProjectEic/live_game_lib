@@ -9,7 +9,12 @@ class RoomSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Room Selection'),
+        title: const Text(
+          'Room Selection',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -21,7 +26,9 @@ class RoomSelectionScreen extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
+                    ),
                   ),
                   backgroundColor: theme.colorScheme.onBackground,
                 ),
@@ -55,7 +62,9 @@ class RoomSelectionScreen extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
+                    ),
                   ),
                   backgroundColor: theme.colorScheme.onBackground,
                 ),
@@ -87,7 +96,6 @@ class RoomSelectionScreen extends StatelessWidget {
   }
 
   String generateRandomRoomId() {
-    // Logic to generate a random room ID (you can implement your own logic)
     return 'Room-${DateTime.now().millisecondsSinceEpoch}';
   }
 }

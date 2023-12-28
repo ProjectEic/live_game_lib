@@ -4,6 +4,7 @@ import 'package:example/gamelist.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/gamemanager.dart';
+import 'package:live_game_lib/frontend/game_state_screens/create_lobby_options_screen.dart';
 import 'package:live_game_lib/frontend/game_state_screens/home_screen.dart';
 import 'package:live_game_lib/frontend/game_state_screens/lobby_screen.dart';
 import 'package:live_game_lib/frontend/game_state_screens/room_selection_screen.dart';
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
               title: 'Join Room',
               theme: Theme.of(context),
             ),
+        '/create_lobby_options': (context) => const CreateLobbyOptionsScreen(),
       },
     );
   }

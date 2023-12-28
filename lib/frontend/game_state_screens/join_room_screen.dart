@@ -36,27 +36,35 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
         padding: const EdgeInsets.all(20.0),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              TextField(
-                controller: roomIDController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Enter your Room ID',
-                ),
+              Icon(
+                Icons.extension, // perhaps adjust
+                size: 150,
+                color: widget.theme.colorScheme.secondary,
               ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: usernameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Enter your username',
-                ),
-                onChanged: (text) {
-                  GameManager.instance.username = text;
-                },
+              Column(
+                children: [
+                  TextField(
+                    controller: roomIDController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Enter your Room ID',
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: usernameController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Enter your username',
+                    ),
+                    onChanged: (text) {
+                      GameManager.instance.username = text;
+                    },
+                  ),
+                ],
               ),
-              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Room r = GameManager.instance.getRoom(roomIDController.text);
@@ -65,7 +73,11 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
                       builder: (context) => GameView(r),
                     ),
                   );
-                  Navigator.pushNamed(context, '/game');
+                  Navigator.pushNamed(context, '/lobby_screen', arguments: {
+                    'roomId': roomIDController.text,
+                    'lobbyMembers': r,
+                    'isCreator': false,
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(

@@ -16,7 +16,22 @@ class LobbyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lobby'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Lobby',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () =>
+                  {Navigator.pushNamed(context, '/create_lobby_options')},
+            ),
+          ],
+        ),
       ),
       body: Center(
         child: Padding(
@@ -54,9 +69,25 @@ class LobbyScreen extends StatelessWidget {
                   onPressed: () {
                     // Start button logic
                   },
-                  child: const Text(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 15,
+                      horizontal: 30,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    elevation: 5,
+                    backgroundColor: Theme.of(context).primaryColor,
+                  ),
+                  child: Text(
                     'Start',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.bodyMedium!.fontSize,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
                   ),
                 ),
             ],
