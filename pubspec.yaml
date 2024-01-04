@@ -11,6 +11,7 @@ dependencies:
   firebase: ^9.0.3
   flutter:
     sdk: flutter
+  playing_cards: ^0.4.1+11
 
   # cloud_firestore: ^4.9.2
   firebase_auth: ^4.10.0

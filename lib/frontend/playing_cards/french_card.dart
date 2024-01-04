@@ -1,21 +1,16 @@
-import 'abstarct_card.dart';
+import 'package:flutter/material.dart';
+import 'package:playing_cards/playing_cards.dart';
 
-class Card extends AbstractCard {
-  final Map<String, String> wordToSymbol = {
-    'spades': '♠',
-    'hearts': '♥',
-    'diamonds': '♦',
-    'clubs': '♣',
-  };
+class FrenchCard extends StatelessWidget {
+  final Suit suit;
+  final CardValue cardValue;
 
-  Card(
-      {required super.value,
-      required super.icon,
-      required super.text,
-      required super.x,
-      required super.y,
-      super.width,
-      super.height}) {
-    super.icon = wordToSymbol[icon]!;
+  const FrenchCard(this.suit, this.cardValue, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return PlayingCardView(
+      card: PlayingCard(suit, cardValue),
+    );
   }
 }

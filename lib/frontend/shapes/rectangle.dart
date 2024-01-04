@@ -22,7 +22,6 @@ class Rectangle extends TwoDShape {
     return Container(
       width: width,
       height: height,
-      color: color,
       decoration: decoration,
     );
   }
