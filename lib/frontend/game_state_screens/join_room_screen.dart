@@ -7,11 +7,9 @@ class JoinRoomScreen extends StatefulWidget {
   const JoinRoomScreen({
     Key? key,
     required this.title,
-    required this.theme,
   }) : super(key: key);
 
   final String title;
-  final ThemeData theme;
 
   @override
   State<JoinRoomScreen> createState() => _JoinRoomScreenState();
@@ -41,7 +39,7 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
               Icon(
                 Icons.extension, // perhaps adjust
                 size: 150,
-                color: widget.theme.colorScheme.secondary,
+                color: Theme.of(context).colorScheme.secondary,
               ),
               Column(
                 children: [
@@ -88,14 +86,14 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   elevation: 5,
-                  backgroundColor: widget.theme.primaryColor,
+                  backgroundColor: Theme.of(context).primaryColor,
                 ),
                 child: Text(
                   'Join Game',
                   style: TextStyle(
-                    fontSize: widget.theme.textTheme.bodyMedium!.fontSize,
+                    fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
                     fontWeight: FontWeight.bold,
-                    color: widget.theme.colorScheme.onPrimary,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   ),
                 ),
               ),

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:live_game_lib/backend/game_prefab.dart';
+import 'package:live_game_lib/backend/gamemanager.dart';
+import 'package:live_game_lib/backend/gamstate.dart';
+import 'package:live_game_lib/backend/room.dart';
 
 class Home extends StatelessWidget {
   final String title;
-  final List<List<String>> games;
-  final ThemeData theme;
+  final Map<String, Game> games;
 
   const Home({
     Key? key,
     required this.title,
     required this.games,
-    required this.theme,
   }) : super(key: key);
 
   @override
@@ -20,10 +22,10 @@ class Home extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-              fontSize: theme.textTheme.titleLarge!.fontSize,
+              fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.5,
-              color: theme.colorScheme.onSurface,
+              color: Theme.of(context).colorScheme.onSurface,
               shadows: [
                 Shadow(
                   color: Colors.black.withOpacity(0.5),
@@ -35,9 +37,8 @@ class Home extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: games.length,
-        itemBuilder: (context, index) {
+      body: ListView(
+        children: games.keys.map<Widget>((key) {
           return Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -48,22 +49,22 @@ class Home extends StatelessWidget {
               ),
               child: ListTile(
                 title: Text(
-                  games[index][0],
+                  key,
                   style: TextStyle(
-                    fontSize: theme.textTheme.titleMedium!.fontSize,
+                    fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
-                  'Tap to play ${games[index][0]}',
+                  'Tap to play $key',
                   style: const TextStyle(
                     fontStyle: FontStyle.italic,
                   ),
                 ),
                 leading: CircleAvatar(
-                  backgroundColor: theme.primaryColor,
+                  backgroundColor: Theme.of(context).primaryColor,
                   child: Text(
-                    '${index + 1}',
+                    '${games.keys.toList().indexOf(key) + 1}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -71,18 +72,75 @@ class Home extends StatelessWidget {
                   ),
                 ),
                 trailing: const Icon(Icons.arrow_forward),
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    games[index][1],
-                    arguments: games[index],
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      final usernameController = TextEditingController();
+                      return AlertDialog(
+                        title: const Text('Enter Your Username'),
+                        content: TextField(
+                          controller: usernameController,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter your username',
+                          ),
+                          onChanged: (text) {
+                            GameManager.instance.username = text;
+                          },
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () async {
+                              Navigator.of(context).pop();
+                              Room r = await GameManager.instance
+                                  .createRoom(usernameController.text, key);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => GameView(r)));
+                            },
+                            child: const Text('Submit'),
+                          ),
+                        ],
+                      );
+                    },
                   );
                 },
               ),
             ),
           );
-        },
+        }).toList(),
       ),
+      floatingActionButton: FractionallySizedBox(
+        widthFactor: 0.8,
+        child: TextButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/join_room_screen');
+          },
+          style: TextButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            textStyle: TextStyle(
+              fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 25,
+              horizontal: 30,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+          ),
+          child: Text(
+            'Join a Room',
+            style: TextStyle(
+              fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:live_game_lib/backend/gamemanager.dart';
+import 'package:live_game_lib/backend/room.dart';
 
 class RoomSelectionScreen extends StatelessWidget {
-  final ThemeData theme;
-
-  const RoomSelectionScreen({Key? key, required this.theme}) : super(key: key);
+  const RoomSelectionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +30,11 @@ class RoomSelectionScreen extends StatelessWidget {
                       Radius.circular(10.0),
                     ),
                   ),
-                  backgroundColor: theme.colorScheme.onBackground,
+                  backgroundColor: Theme.of(context).colorScheme.onBackground,
                 ),
-                onPressed: () {
+                onPressed: () async {
                   // Navigate to LobbyScreen as a creator
+                  // Room r = await GameManager.instance.createRoom(usernameController.text, key);
                   Navigator.pushNamed(
                     context,
                     '/lobby_screen',
@@ -49,8 +50,8 @@ class RoomSelectionScreen extends StatelessWidget {
                 child: Text(
                   'Create a Room',
                   style: TextStyle(
-                    color: theme.colorScheme.surface,
-                    fontSize: theme.textTheme.titleLarge!.fontSize,
+                    color: Theme.of(context).colorScheme.surface,
+                    fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
                   ),
                 ),
               ),
@@ -66,7 +67,7 @@ class RoomSelectionScreen extends StatelessWidget {
                       Radius.circular(10.0),
                     ),
                   ),
-                  backgroundColor: theme.colorScheme.onBackground,
+                  backgroundColor: Theme.of(context).colorScheme.onBackground,
                 ),
                 onPressed: () {
                   // Navigate to LobbyScreen as a participant
@@ -83,8 +84,8 @@ class RoomSelectionScreen extends StatelessWidget {
                 child: Text(
                   'Join a Room',
                   style: TextStyle(
-                    color: theme.colorScheme.surface,
-                    fontSize: theme.textTheme.titleLarge!.fontSize,
+                    color: Theme.of(context).colorScheme.surface,
+                    fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
                   ),
                 ),
               ),

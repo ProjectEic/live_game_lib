@@ -43,12 +43,7 @@ class MyApp extends StatelessWidget {
         '//': (context) => const FancyBackground(), // just an idea atm
         '/': (context) => Home(
               title: 'Live Games',
-              games: const [
-                ['Game 1', '/room_selection_screen'],
-                ['Game 2', '/room_selection_screen'],
-                ['Game 3', '/room_selection_screen'],
-              ],
-              theme: Theme.of(context),
+              games: games,
             ),
         '/lobby_screen': (context) {
           final args = ModalRoute.of(context)!.settings.arguments
@@ -60,12 +55,9 @@ class MyApp extends StatelessWidget {
             args['isCreator'],
           );
         },
-        '/room_selection_screen': (context) => RoomSelectionScreen(
-              theme: Theme.of(context),
-            ),
-        '/join_room_screen': (context) => JoinRoomScreen(
+        '/room_selection_screen': (context) => const RoomSelectionScreen(),
+        '/join_room_screen': (context) => const JoinRoomScreen(
               title: 'Join Room',
-              theme: Theme.of(context),
             ),
         '/create_lobby_options': (context) => const CreateLobbyOptionsScreen(),
       },
