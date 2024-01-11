@@ -22,6 +22,16 @@ class Room {
         this.adminId = (await ref!.child("admin").get()) as String;
       }();
     }
+    
+    // auto set admin
+    addDataListener((data) {
+      if (!players.contains(data["admin"] as String)) {
+        adminId = players[0];
+      }
+      if (data["admin"] != adminId) {
+        ref!.child("admin").set(adminId);
+      }
+    });
 
     addDataListener((d) {
       data = d;
