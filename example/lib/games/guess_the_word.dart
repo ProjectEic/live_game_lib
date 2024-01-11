@@ -14,7 +14,11 @@ Widget guessTheWordScreen(Room r) {
             const Text(
               'This is the guess the word game',
             ),
-            Column(children: players.map((e) => Text(e)).toList())
+            Column(children: players.map((e) => Text(e)).toList()),
+            TextButton(
+              onPressed: () => {r.goBackToLobby()}, 
+              child: Text("Back to lobby")
+            )
           ],
         ),
       ));

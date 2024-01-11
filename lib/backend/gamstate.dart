@@ -13,29 +13,43 @@ class GameView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
+    // ignore: no_logic_in_create_state
     return _GameState(room);
   }
 }
 
 
 class _GameState extends State<GameView> {
-  Room room;
+  final Room room;
 
   _GameState(this.room);
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    room.addDataListener(
+        (data) { 
+          setState(() {}); 
+        }
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     if (!room.joined(GameManager.instance.username)) {
-      room.addDataListener(
-        (data) { setState(() {}); }
-      );
       room.join(GameManager.instance.username);
-      setState(() {});
     }
-    String? gameName = room.data["name"] as String?;
+    String? gameName = room.data["gameName"] as String?;
     if (gameName == null) {
       return GameManager.instance.roomNotFoundWidget;
     }
+
+    if (room.inLobby) {
+      return GameManager.instance.lobbyScreenGenerator(context, room);
+    }
+
     Game game = GameManager.instance.getGame(gameName);
     return game.screen(room);
   }

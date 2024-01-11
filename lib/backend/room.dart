@@ -1,8 +1,9 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:live_game_lib/backend/gamemanager.dart';
 
 class Room {
   final String _id;
-  String adminId = "";
+
   DatabaseReference? ref;
   Map<String, dynamic> data = {};
 
@@ -14,37 +15,26 @@ class Room {
     } else {
       ref = lref;
     }
-    if (adminId != null) {
-      ref!.child("admin").set(adminId);
-      this.adminId = adminId;
-    } else {
-      () async {
-        this.adminId = (await ref!.child("admin").get()) as String;
-      }();
-    }
+ 
+
     
     // auto set admin
     addDataListener((data) {
-      if (!players.contains(data["admin"] as String)) {
-        adminId = players[0];
-      }
-      if (data["admin"] != adminId) {
-        ref!.child("admin").set(adminId);
+      if (!players.contains(data["admin"] as String) && players.isNotEmpty) {
+        ref!.child("admin").set(players.first);
       }
     });
 
     addDataListener((d) {
       data = d;
     });
-    () async {
-      data = (await ref!.get()).value as Map<String, dynamic>;
-    }();
+
   }
 
   void addDataListener(void Function(Map<String, dynamic> data)? onValue) {
     ref?.onValue.listen((event) {
-      print(event.snapshot.value);
-      data = event.snapshot.value as Map<String, dynamic>;
+
+      data = (event.snapshot.value??<String, dynamic>{}) as Map<String, dynamic>;
       if (onValue != null) {
         onValue(data);
       }
@@ -52,9 +42,15 @@ class Room {
   }
 
   List<String> get players =>
-      ((data["players"] ?? Map<String, dynamic>) as Map<String, dynamic>)
+      ((data["players"] ?? <String, dynamic>{}) as Map<String, dynamic>)
           .keys
           .toList();
+  
+  String get gameName => (data["gameName"]??"") as String;
+
+  String get adminId => (data["admin"] ?? "") as String;
+
+  bool get inLobby => (data["inLobby"] ?? false) as bool;
 
   String get id => _id;
 
@@ -62,17 +58,48 @@ class Room {
     return adminId == uid;
   }
 
+
+  Future<bool> startGame() {
+    return ref!.child("inLobby").set(false).then((value) => true);
+  }
+
+  Future<bool> goBackToLobby() {
+    return ref!.child("inLobby").set(true).then((value) => true);
+  }
+
+
+
+  void join(String myName) async {
+    String n = (await ref!.child("gameName").get()).value as String ;
+
+    if (!GameManager.instance.getGame(n).usesLobby || GameManager.instance.getGame(n).canPostjoin || inLobby) {
+      myDataRef = ref!.child("players").child(myName);
+      myDataRef.set(true);
+      myDataRef.onDisconnect().remove();
+      return;
+    } else {
+      myDataRef = ref!.child("waitingPlayers").child(myName);
+      myDataRef.set(true);
+      myDataRef.onDisconnect().remove();
+      ref!.child("inLobby").onValue.listen((event) {
+        if (event.snapshot.value == true) {
+          myDataRef.remove();
+          myDataRef = ref!.child("players").child(myName);
+          myDataRef.set(true);
+          myDataRef.onDisconnect().remove();
+        }
+      });
+      return;
+    }
+
+  }
+
   bool joined(String uid) {
-    return (data["players"] ?? Map<String, dynamic>).containsKey(uid);
+    return players.contains(uid);
   }
 
   Future<void> disconnect() async {
     await myDataRef.remove();
   }
 
-  void join(String myName) {
-    myDataRef = ref!.child("players").child(myName);
-    myDataRef.set(true);
-    myDataRef.onDisconnect().remove();
-  }
 }

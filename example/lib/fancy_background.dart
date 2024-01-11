@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class FancyBackground extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const FancyBackground({Key? key});
 
   @override

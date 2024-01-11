@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:live_game_lib/backend/game_prefab.dart';
 import 'package:live_game_lib/backend/gamemanager.dart';
 import 'package:live_game_lib/backend/gamstate.dart';
 import 'package:live_game_lib/backend/room.dart';
 
-class Home extends StatelessWidget {
-  final String title;
-  final Map<String, Game> games;
+class DefaultHome extends StatelessWidget {
 
-  const Home({
+  const DefaultHome({
     Key? key,
-    required this.title,
-    required this.games,
   }) : super(key: key);
 
   @override
@@ -20,7 +15,7 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: Center(
           child: Text(
-            title,
+            "Home",
             style: TextStyle(
               fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
               fontWeight: FontWeight.bold,
@@ -38,7 +33,7 @@ class Home extends StatelessWidget {
         ),
       ),
       body: ListView(
-        children: games.keys.map<Widget>((key) {
+        children: GameManager.instance.games.keys.map<Widget>((key) {
           return Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -64,7 +59,7 @@ class Home extends StatelessWidget {
                 leading: CircleAvatar(
                   backgroundColor: Theme.of(context).primaryColor,
                   child: Text(
-                    '${games.keys.toList().indexOf(key) + 1}',
+                    '${GameManager.instance.games.keys.toList().indexOf(key) + 1}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

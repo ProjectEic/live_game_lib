@@ -3,19 +3,17 @@ import 'package:live_game_lib/backend/gamemanager.dart';
 import 'package:live_game_lib/backend/gamstate.dart';
 import 'package:live_game_lib/backend/room.dart';
 
-class JoinRoomScreen extends StatefulWidget {
-  const JoinRoomScreen({
+class DefaultJoinRoomScreen extends StatefulWidget {
+  const DefaultJoinRoomScreen({
     Key? key,
-    required this.title,
   }) : super(key: key);
 
-  final String title;
 
   @override
-  State<JoinRoomScreen> createState() => _JoinRoomScreenState();
+  State<DefaultJoinRoomScreen> createState() => _JoinRoomScreenState();
 }
 
-class _JoinRoomScreenState extends State<JoinRoomScreen> {
+class _JoinRoomScreenState extends State<DefaultJoinRoomScreen> {
   final usernameController = TextEditingController();
   final roomIDController = TextEditingController();
 
@@ -23,9 +21,9 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.title,
-          style: const TextStyle(
+        title: const Text(
+          "Join Room",
+          style:  TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -66,16 +64,8 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
               ElevatedButton(
                 onPressed: () {
                   Room r = GameManager.instance.getRoom(roomIDController.text);
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => GameView(r),
-                    ),
-                  );
-                  Navigator.pushNamed(context, '/lobby_screen', arguments: {
-                    'roomId': roomIDController.text,
-                    'lobbyMembers': r,
-                    'isCreator': false,
-                  });
+                  Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => GameView(r)));
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
