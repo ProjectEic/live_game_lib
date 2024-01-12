@@ -1,5 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/gamemanager.dart';
+import 'package:live_game_lib/backend/gamstate.dart';
 
 class Room {
   final String _id;
@@ -14,10 +16,7 @@ class Room {
       ref = FirebaseDatabase.instance.ref("rooms").child(_id);
     } else {
       ref = lref;
-    }
- 
-
-    
+    }  
     // auto set admin
     addDataListener((data) {
       if (!players.contains(data["admin"] as String) && players.isNotEmpty) {
@@ -29,6 +28,10 @@ class Room {
       data = d;
     });
 
+  }
+
+  Widget getGameView() {
+    return GameView(this);
   }
 
   void addDataListener(void Function(Map<String, dynamic> data)? onValue) {
