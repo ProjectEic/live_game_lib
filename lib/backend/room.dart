@@ -19,7 +19,7 @@ class Room {
     }  
     // auto set admin
     addDataListener((data) {
-      if (!players.contains(data["admin"] as String) && players.isNotEmpty) {
+      if (!players.contains(adminId) && players.isNotEmpty) {
         ref!.child("admin").set(players.first);
       }
     });
@@ -73,7 +73,11 @@ class Room {
 
 
   void join(String myName) async {
-    String n = (await ref!.child("gameName").get()).value as String ;
+
+    String? n = ((await ref!.child("gameName").get()).value as String?);
+    if (n==null) {
+      return;
+    }
 
     if (!GameManager.instance.getGame(n).usesLobby || GameManager.instance.getGame(n).canPostjoin || inLobby) {
       myDataRef = ref!.child("players").child(myName);

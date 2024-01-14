@@ -20,7 +20,7 @@ class GameManager {
 
   String username = "";
 
-  Widget roomNotFoundWidget = GameNotFound();
+  Widget roomNotFoundWidget;
 
   Widget homeScreen;
 
@@ -31,21 +31,21 @@ class GameManager {
   Widget lobbyOptionsScreen;
 
   GameManager(
-    this.roomNotFoundWidget, // ToDo create default widget
     {
-    Map<String, Game> gm = const {},
+    Map<String, Game> games = const {},
     this.username = "Player",
     this.homeScreen = const DefaultHome(),
     this.joinRoomScreen = const DefaultJoinRoomScreen(),
     this.lobbyScreenGenerator = generateDefaultLobbyScreen,
     this.lobbyOptionsScreen = const CreateLobbyOptionsScreen(),
+    this.roomNotFoundWidget = const GameNotFound(),
   }) {
     if (_instance != null) {
       throw Exception("GameManager already initialized");
     }
     _instance = this;
     _roomsRef = FirebaseDatabase.instance.ref("rooms");
-    _gameMap = gm;
+    _gameMap = games;
   }
 
   String addGame(String name, Game gameManagerGetter) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class GameNotFound extends StatelessWidget {
+  const GameNotFound({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -8,7 +8,7 @@ import 'package:live_game_lib/backend/gamemanager.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  GameManager(Container(), gm: games);
+  GameManager(games: games);
   runApp(const MyApp());
 }
 

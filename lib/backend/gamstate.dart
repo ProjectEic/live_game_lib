@@ -41,6 +41,7 @@ class _GameState extends State<GameView> {
     if (!room.joined(GameManager.instance.username)) {
       room.join(GameManager.instance.username);
     }
+
     String? gameName = room.data["gameName"] as String?;
     if (gameName == null) {
       return GameManager.instance.roomNotFoundWidget;
