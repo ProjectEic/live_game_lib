@@ -6,12 +6,14 @@ import 'package:live_game_lib/backend/gamstate.dart';
 class Room {
   final String _id;
 
+  final GameManager gameManager;
+
   DatabaseReference? ref;
   Map<String, dynamic> data = {};
 
   late DatabaseReference myDataRef;
 
-  Room(this._id, {DatabaseReference? lref, String? adminId}) {
+  Room(this._id, this.gameManager, {DatabaseReference? lref, String? adminId}) {
     if (lref == null) {
       ref = FirebaseDatabase.instance.ref("rooms").child(_id);
     } else {
@@ -31,7 +33,7 @@ class Room {
   }
 
   Widget getGameView() {
-    return GameView(this);
+    return GameView(this, gameManager);
   }
 
   void addDataListener(void Function(Map<String, dynamic> data)? onValue) {
@@ -79,7 +81,7 @@ class Room {
       return;
     }
 
-    if (!GameManager.instance.getGame(n).usesLobby || GameManager.instance.getGame(n).canPostjoin || inLobby) {
+    if (!gameManager.getGame(n).usesLobby || gameManager.getGame(n).canPostjoin || inLobby) {
       myDataRef = ref!.child("players").child(myName);
       myDataRef.set(true);
       myDataRef.onDisconnect().remove();

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/gamemanager.dart';
-import 'package:live_game_lib/backend/gamstate.dart';
 import 'package:live_game_lib/backend/room.dart';
 
 class DefaultHome extends StatelessWidget {
 
-  const DefaultHome({
+  final GameManager gameManager;
+
+  const DefaultHome(this.gameManager,{
     Key? key,
+
   }) : super(key: key);
 
   @override
@@ -33,7 +35,7 @@ class DefaultHome extends StatelessWidget {
         ),
       ),
       body: ListView(
-        children: GameManager.instance.games.keys.map<Widget>((key) {
+        children: gameManager.games.keys.map<Widget>((key) {
           return Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -59,7 +61,7 @@ class DefaultHome extends StatelessWidget {
                 leading: CircleAvatar(
                   backgroundColor: Theme.of(context).primaryColor,
                   child: Text(
-                    '${GameManager.instance.games.keys.toList().indexOf(key) + 1}',
+                    '${gameManager.games.keys.toList().indexOf(key) + 1}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -80,17 +82,17 @@ class DefaultHome extends StatelessWidget {
                             hintText: 'Enter your username',
                           ),
                           onChanged: (text) {
-                            GameManager.instance.username = text;
+                            gameManager.username = text;
                           },
                         ),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () async {
                               Navigator.of(context).pop();
-                              Room r = await GameManager.instance
+                              Room r = await gameManager
                                   .createRoom(usernameController.text, key);
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => GameView(r)));
+                                  builder: (context) => r.getGameView()));
                             },
                             child: const Text('Submit'),
                           ),

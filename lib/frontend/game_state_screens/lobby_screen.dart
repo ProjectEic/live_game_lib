@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:live_game_lib/backend/gamemanager.dart';
 import 'package:live_game_lib/backend/room.dart';
 
 
@@ -56,7 +55,7 @@ Widget generateDefaultLobbyScreen(BuildContext context, Room room) {
                 },
               ),
             ),
-            if (room.isAdmin(GameManager.instance.username)) 
+            if (room.isAdmin(room.gameManager.username)) 
               ElevatedButton(
                 onPressed: () {
                   room.startGame();

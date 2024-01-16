@@ -1,10 +1,8 @@
 import 'dart:math';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/widgets.dart';
 import 'package:live_game_lib/backend/game_prefab.dart';
 import 'package:live_game_lib/backend/room.dart';
-import 'package:live_game_lib/frontend/game_state_screens/create_lobby_options_screen.dart';
 import 'package:live_game_lib/frontend/game_state_screens/game_not_found.dart';
 import 'package:live_game_lib/frontend/game_state_screens/home_screen.dart';
 import 'package:live_game_lib/frontend/game_state_screens/join_room_screen.dart';
@@ -12,7 +10,6 @@ import 'package:live_game_lib/frontend/game_state_screens/lobby_screen.dart';
 import 'package:live_game_lib/frontend/game_state_screens/room_selection_screen.dart';
 
 class GameManager {
-  static GameManager? _instance;
 
   DatabaseReference? _roomsRef;
 
@@ -22,30 +19,25 @@ class GameManager {
 
   Widget roomNotFoundWidget;
 
-  Widget homeScreen;
+  Widget? homeScreen;
 
-  Widget joinRoomScreen;
+  Widget? joinRoomScreen;
 
   Widget Function(BuildContext, Room) lobbyScreenGenerator;
-
-  Widget lobbyOptionsScreen;
 
   GameManager(
     {
     Map<String, Game> games = const {},
     this.username = "Player",
-    this.homeScreen = const DefaultHome(),
-    this.joinRoomScreen = const DefaultJoinRoomScreen(),
+    Widget? homeScreen,
+    Widget? joinRoomScreen,
     this.lobbyScreenGenerator = generateDefaultLobbyScreen,
-    this.lobbyOptionsScreen = const CreateLobbyOptionsScreen(),
     this.roomNotFoundWidget = const GameNotFound(),
   }) {
-    if (_instance != null) {
-      throw Exception("GameManager already initialized");
-    }
-    _instance = this;
     _roomsRef = FirebaseDatabase.instance.ref("rooms");
     _gameMap = games;
+    this.homeScreen = homeScreen ?? DefaultHome(this);
+    this.joinRoomScreen = joinRoomScreen ?? DefaultJoinRoomScreen(this);
   }
 
   String addGame(String name, Game gameManagerGetter) {
@@ -60,7 +52,7 @@ class GameManager {
   Map<String, Game> get games => _gameMap;
 
   get routes => <String, WidgetBuilder>{
-        '/': (context) => homeScreen,
+        '/': (context) => homeScreen!,
         '/lobby_screen': (context) {
           final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
@@ -70,19 +62,12 @@ class GameManager {
           );
         },
         '/room_selection_screen': (context) => RoomSelectionScreen(),
-        '/join_room_screen': (context) => joinRoomScreen,
-        '/create_lobby_options': (context) => lobbyOptionsScreen,
+        '/join_room_screen': (context) => joinRoomScreen!,
       };
 
-  static GameManager get instance {
-    if (_instance == null) {
-      throw Exception("GameManager not initialized");
-    }
-    return _instance!;
-  }
 
   Room getRoom(String id) {
-    return Room(id, lref: _roomsRef!.child(id));
+    return Room(id, this, lref: _roomsRef!.child(id));
   }
 
   String generateRandomRoomId() {
@@ -92,6 +77,6 @@ class GameManager {
   Future<Room> createRoom(String adminId, String gameName) async {
     DatabaseReference ref = _roomsRef!.child(generateRandomRoomId());
     await ref.set(_gameMap[gameName]!.prefabData);
-    return Room(ref.key!, lref: ref, adminId: adminId);
+    return Room(ref.key!, this, lref: ref, adminId: adminId);
   }
 }

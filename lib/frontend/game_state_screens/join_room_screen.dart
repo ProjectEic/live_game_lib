@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/gamemanager.dart';
-import 'package:live_game_lib/backend/gamstate.dart';
 import 'package:live_game_lib/backend/room.dart';
 
 class DefaultJoinRoomScreen extends StatefulWidget {
-  const DefaultJoinRoomScreen({
+  final GameManager gameManager;
+  const DefaultJoinRoomScreen(this.gameManager,
+    {
     Key? key,
   }) : super(key: key);
 
 
   @override
-  State<DefaultJoinRoomScreen> createState() => _JoinRoomScreenState();
+  State<DefaultJoinRoomScreen> createState() => _JoinRoomScreenState(gameManager);
 }
 
 class _JoinRoomScreenState extends State<DefaultJoinRoomScreen> {
   final usernameController = TextEditingController();
   final roomIDController = TextEditingController();
+  final GameManager gameManager;
+
+  _JoinRoomScreenState(this.gameManager);
 
   @override
   Widget build(BuildContext context) {
@@ -56,16 +60,16 @@ class _JoinRoomScreenState extends State<DefaultJoinRoomScreen> {
                       labelText: 'Enter your username',
                     ),
                     onChanged: (text) {
-                      GameManager.instance.username = text;
+                      gameManager.username = text;
                     },
                   ),
                 ],
               ),
               ElevatedButton(
                 onPressed: () {
-                  Room r = GameManager.instance.getRoom(roomIDController.text);
+                  Room r = gameManager.getRoom(roomIDController.text);
                   Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => GameView(r)));
+                                  builder: (context) => r.getGameView()));
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
