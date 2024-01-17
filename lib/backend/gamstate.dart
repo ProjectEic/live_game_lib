@@ -54,6 +54,6 @@ class _GameState extends State<GameView> {
     }
 
     Game game = gameManager.getGame(gameName);
-    return game.screen(room);
+    return game.screen(context, room);
   }
 }

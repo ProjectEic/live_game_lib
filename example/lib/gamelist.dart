@@ -7,6 +7,6 @@ Map<String, Game> games = {
     "word guess",
     guessTheWordScreen,
     usesLobby: true,
-    canPostjoin: false,
+    canPostjoin: true,
   ),
 };

@@ -63,6 +63,9 @@ class Room {
     return adminId == uid;
   }
 
+  bool amAdmin() {
+    return isAdmin(gameManager.username);
+  }
 
   Future<bool> startGame() {
     return ref!.child("inLobby").set(false).then((value) => true);
@@ -72,6 +75,29 @@ class Room {
     return ref!.child("inLobby").set(true).then((value) => true);
   }
 
+  Future <bool> set(String key, dynamic value) {
+    return ref!.child(key).set(value).then((value) => true);
+  }
+
+  Future<bool> addToList(String key, dynamic value) {
+    return ref!.child(key).push().set(value).then((value) => true);
+  }
+
+  List getList(String key) {
+    var cdata = data;
+    for(String k in key.split("/")) {
+      cdata = (cdata[k]??<String, dynamic>{}) as Map<String, dynamic>;
+    }
+    return cdata.values.toList();
+  }
+
+  String getString(String key) {
+    var cdata = data;
+    for(String k in key.split("/")) {
+      cdata = (cdata[k]??<String, dynamic>{}) as Map<String, dynamic>;
+    }
+    return (cdata as String?)??"";
+  }
 
 
   void join(String myName) async {
@@ -85,7 +111,6 @@ class Room {
       myDataRef = ref!.child("players").child(myName);
       myDataRef.set(true);
       myDataRef.onDisconnect().remove();
-      return;
     } else {
       myDataRef = ref!.child("waitingPlayers").child(myName);
       myDataRef.set(true);
@@ -98,7 +123,12 @@ class Room {
           myDataRef.onDisconnect().remove();
         }
       });
-      return;
+    }
+
+    if (adminId == "") {
+      if (!players.contains(adminId) && players.isNotEmpty) {
+        ref!.child("admin").set(players.first);
+      }
     }
 
   }
@@ -109,6 +139,12 @@ class Room {
 
   Future<void> disconnect() async {
     await myDataRef.remove();
+    // if (players.isEmpty) {
+    //   await ref!.remove();
+    // } else 
+    if (adminId == gameManager.username) {
+      await ref!.child("admin").set(players.first);
+    }
   }
 
 }

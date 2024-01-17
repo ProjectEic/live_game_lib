@@ -13,7 +13,7 @@ class Game {
 
   int? maxPlayers;
 
-  Widget Function(Room) screen;
+  Widget Function(BuildContext, Room) screen;
 
   Game(this.name, this.screen, 
   {
