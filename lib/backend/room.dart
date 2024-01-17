@@ -81,7 +81,7 @@ class Room {
       return;
     }
 
-    if (!gameManager.getGame(n).usesLobby || gameManager.getGame(n).canPostjoin || inLobby) {
+    if (!gameManager.getGame(n).usesLobby || gameManager.getGame(n).canPostjoin || inLobby || players.length < (gameManager.getGame(n).maxPlayers??(players.length+1))) {
       myDataRef = ref!.child("players").child(myName);
       myDataRef.set(true);
       myDataRef.onDisconnect().remove();
