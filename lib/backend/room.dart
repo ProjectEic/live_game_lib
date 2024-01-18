@@ -83,20 +83,42 @@ class Room {
     return ref!.child(key).push().set(value).then((value) => true);
   }
 
-  List getList(String key) {
+  dynamic getKey(String key) {
     var cdata = data;
     for(String k in key.split("/")) {
-      cdata = (cdata[k]??<String, dynamic>{}) as Map<String, dynamic>;
+      cdata = (cdata[k]??<String, dynamic>{}) as dynamic;
     }
+    return cdata;
+  }
+
+  Map<String, dynamic> getMap(String key) {
+    var cdata = getKey(key);
+    return cdata as Map<String, dynamic>;
+  }
+
+  List getList(String key) {
+    var cdata = getKey(key);
     return cdata.values.toList();
   }
 
   String getString(String key) {
-    var cdata = data;
-    for(String k in key.split("/")) {
-      cdata = (cdata[k]??<String, dynamic>{}) as Map<String, dynamic>;
-    }
+    var cdata =  getKey(key);
     return (cdata as String?)??"";
+  }
+
+  bool getBool(String key) {
+    var cdata =  getKey(key);
+    return (cdata as bool?)??false;
+  }
+
+  double getDouble(String key) {
+    var cdata =  getKey(key);
+    return (cdata as double?)??0;
+  }
+
+  int getInt(String key) {
+    var cdata =  getKey(key);
+    return (cdata as int?)??0;
   }
 
 
