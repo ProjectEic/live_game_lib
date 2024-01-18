@@ -91,34 +91,59 @@ class Room {
     return cdata;
   }
 
-  Map<String, dynamic> getMap(String key) {
+  Map<String, T> getMap<T>(String key) {
     var cdata = getKey(key);
-    return cdata as Map<String, dynamic>;
+    return Map<String, T>.from(cdata as Map<String, dynamic>);
   }
 
-  List getList(String key) {
+  List getList<T>(String key) {
     var cdata = getKey(key);
-    return cdata.values.toList();
+    return List<T>.from(cdata.values.toList());
   }
 
-  String getString(String key) {
+  String? getString(String key) {
     var cdata =  getKey(key);
-    return (cdata as String?)??"";
+    try {
+      return cdata as String;
+    } catch (e) {
+      return null;
+    }
   }
 
-  bool getBool(String key) {
+  bool? getBool(String key) {
     var cdata =  getKey(key);
-    return (cdata as bool?)??false;
+    try {
+      return cdata as bool;
+    } catch (e) {
+      return null;
+    }
   }
 
-  double getDouble(String key) {
+  double? getDouble(String key) {
     var cdata =  getKey(key);
-    return (cdata as double?)??0;
+    try {
+      return cdata as double;
+    } catch (e) {
+      return null;
+    }
   }
 
-  int getInt(String key) {
+  int? getInt(String key) {
     var cdata =  getKey(key);
-    return (cdata as int?)??0;
+    try {
+      return cdata as int;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  T? get<T> (String key) {
+    var cdata =  getKey(key);
+    try {
+      return cdata as T;
+    } catch (e) {
+      return null;
+    } 
   }
 
 

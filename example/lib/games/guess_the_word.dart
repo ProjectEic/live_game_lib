@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/room.dart';
 
 Widget guessTheWordScreen(BuildContext context, Room r) {
-  String currentQuestion = r.getString("currentQuestion");
-  Map<String, bool> answers = Map<String, bool>.from(r.getMap("answers"));
+  String currentQuestion = r.getString("currentQuestion") ?? "";
+  Map<String, bool> answers = r.getMap("answers");
   List<String> answeredQuestions = answers.keys.toList();
   
   return Scaffold(
