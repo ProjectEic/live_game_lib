@@ -28,7 +28,7 @@ Widget guessTheWordScreen(BuildContext context, Room r) {
                 return ListTile(
                   title: Text(answeredQuestions[index]),
                   subtitle: Text("Answer: ${(answers[answeredQuestions[index]]!)?"Yes":"No"}"),
-                  trailing: answers[answeredQuestions[index]]??false?Icon(Icons.check):Icon(Icons.close),
+                  trailing: answers[answeredQuestions[index]]??false?const Icon(Icons.check):const Icon(Icons.close),
                 );
               },
             ),
@@ -51,21 +51,21 @@ Widget getAdminView(BuildContext b, Room r, String currentQuestion) {
   return Column(
     children: [
       ElevatedButton(
-        child: Text("Yes"),
+        child: const Text("Yes"),
         onPressed: () {
-          r.ref!.child("answers").child(currentQuestion).set(true);
-          r.ref!.child("currentQuestion").set("");
+          r.set("answers/$currentQuestion", false);
+          r.set("currentQuestion", "");
         },
       ),
       ElevatedButton(
-        child: Text("No"),
+        child: const Text("No"),
         onPressed: () {
-          r.ref!.child("answers").child(currentQuestion).set(false);
-          r.ref!.child("currentQuestion").set("");
+          r.set("answers/$currentQuestion", false);
+          r.set("currentQuestion", "");
         },
       ),
       ElevatedButton(
-        child: Text("You got it!"),
+        child: const Text("You got it!"),
         onPressed: () {
           r.goBackToLobby();
         },
@@ -81,16 +81,16 @@ Widget getNonAdminView(BuildContext b, Room r, String currentQuestion) {
   }
   return Column(
     children: [
-      Text("Type a question: "),
+      const Text("Type a question: "),
       
       TextField(
         controller: controller,
       ),
 
       ElevatedButton(
-        child: Text("Submit"),
+        child: const Text("Submit"),
         onPressed: () {
-          r.ref!.child("currentQuestion").set(controller.text);
+          r.set("currentQuestion", controller.text);
         },
       )
     ],

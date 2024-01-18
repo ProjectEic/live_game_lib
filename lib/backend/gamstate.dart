@@ -28,7 +28,6 @@ class _GameState extends State<GameView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     room.addDataListener(
         (data) { 

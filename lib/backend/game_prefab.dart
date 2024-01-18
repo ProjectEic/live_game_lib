@@ -23,7 +23,7 @@ class Game {
     this.prefabData,
     this.maxPlayers,
   }) {
-    this.prefabData = prefabData ?? {};
+    prefabData = prefabData ?? {};
     prefabData!["gameName"] = name;
     prefabData!["players"] = <String, dynamic>{};
     prefabData!["admin"] = "";

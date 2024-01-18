@@ -11,6 +11,7 @@ class DefaultJoinRoomScreen extends StatefulWidget {
 
 
   @override
+  // ignore: no_logic_in_create_state
   State<DefaultJoinRoomScreen> createState() => _JoinRoomScreenState(gameManager);
 }
 

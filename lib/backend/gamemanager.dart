@@ -61,7 +61,7 @@ class GameManager {
             args['room'],
           );
         },
-        '/room_selection_screen': (context) => RoomSelectionScreen(),
+        '/room_selection_screen': (context) => const RoomSelectionScreen(),
         '/join_room_screen': (context) => joinRoomScreen!,
       };
 
