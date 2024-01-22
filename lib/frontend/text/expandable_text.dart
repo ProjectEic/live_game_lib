@@ -14,8 +14,7 @@ class ExpandableText extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _ExpandableTextState createState() =>
-      _ExpandableTextState(); // dunno how to fix this => needed because of set state
+  _ExpandableTextState createState() => _ExpandableTextState();
 }
 
 class _ExpandableTextState extends State<ExpandableText> {

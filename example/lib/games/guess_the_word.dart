@@ -1,12 +1,13 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/room.dart';
+import 'package:live_game_lib/frontend/inputs/text_field_with_submit.dart';
 
 Widget guessTheWordScreen(BuildContext context, Room r) {
   String currentQuestion = r.getString("currentQuestion") ?? "";
   Map<String, bool> answers = r.getMap("answers");
   List<String> answeredQuestions = answers.keys.toList();
-  
+
   return Scaffold(
     appBar: AppBar(
       title: const Text("Guess the word"),
@@ -27,20 +28,31 @@ Widget guessTheWordScreen(BuildContext context, Room r) {
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(answeredQuestions[index]),
-                  subtitle: Text("Answer: ${(answers[answeredQuestions[index]]!)?"Yes":"No"}"),
-                  trailing: answers[answeredQuestions[index]]??false?const Icon(Icons.check):const Icon(Icons.close),
+                  subtitle: Text(
+                      "Answer: ${(answers[answeredQuestions[index]]!) ? "Yes" : "No"}"),
+                  trailing: answers[answeredQuestions[index]] ?? false
+                      ? const Icon(Icons.check)
+                      : const Icon(Icons.close),
                 );
               },
             ),
-            const Padding(padding: EdgeInsets.all(10),),
-            Text(currentQuestion!=""?"Waiting for Question":"No question yet!"),
+            const Padding(
+              padding: EdgeInsets.all(10),
+            ),
+            Text(currentQuestion != ""
+                ? "Waiting for Question"
+                : "No question yet!"),
             Text(currentQuestion),
-            const Padding(padding: EdgeInsets.all(10),),
-                  r.amAdmin()?getAdminView(context, r, currentQuestion):getNonAdminView(context, r, currentQuestion),
+            const Padding(
+              padding: EdgeInsets.all(10),
+            ),
+            r.amAdmin()
+                ? getAdminView(context, r, currentQuestion)
+                : getNonAdminView(context, r, currentQuestion),
           ],
         ),
       ),
-    )
+    ),
   );
 }
 
@@ -82,11 +94,9 @@ Widget getNonAdminView(BuildContext b, Room r, String currentQuestion) {
   return Column(
     children: [
       const Text("Type a question: "),
-      
       TextField(
         controller: controller,
       ),
-
       ElevatedButton(
         child: const Text("Submit"),
         onPressed: () {

@@ -39,12 +39,14 @@ class _TextButtonWidgetState extends State<TextButtonWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(widget.url!),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: widget.url != null
+          ? BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(widget.url!),
+                fit: BoxFit.cover,
+              ),
+            )
+          : null,
       child: GestureDetector(
         onTap: () {
           if (widget.onTap != null) {

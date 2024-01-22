@@ -18,7 +18,7 @@ class Room {
       ref = FirebaseDatabase.instance.ref("rooms").child(_id);
     } else {
       ref = lref;
-    }  
+    }
     // auto set admin
     addDataListener((data) {
       if (!players.contains(adminId) && players.isNotEmpty) {
@@ -29,7 +29,6 @@ class Room {
     addDataListener((d) {
       data = d;
     });
-
   }
 
   Widget getGameView() {
@@ -38,8 +37,8 @@ class Room {
 
   void addDataListener(void Function(Map<String, dynamic> data)? onValue) {
     ref?.onValue.listen((event) {
-
-      data = (event.snapshot.value??<String, dynamic>{}) as Map<String, dynamic>;
+      data =
+          (event.snapshot.value ?? <String, dynamic>{}) as Map<String, dynamic>;
       if (onValue != null) {
         onValue(data);
       }
@@ -50,8 +49,8 @@ class Room {
       ((data["players"] ?? <String, dynamic>{}) as Map<String, dynamic>)
           .keys
           .toList();
-  
-  String get gameName => (data["gameName"]??"") as String;
+
+  String get gameName => (data["gameName"] ?? "") as String;
 
   String get adminId => (data["admin"] ?? "") as String;
 
@@ -75,7 +74,7 @@ class Room {
     return ref!.child("inLobby").set(true).then((value) => true);
   }
 
-  Future <bool> set(String key, dynamic value) {
+  Future<bool> set(String key, dynamic value) {
     return ref!.child(key).set(value).then((value) => true);
   }
 
@@ -85,8 +84,8 @@ class Room {
 
   dynamic getKey(String key) {
     var cdata = data;
-    for(String k in key.split("/")) {
-      cdata = (cdata[k]??<String, dynamic>{}) as dynamic;
+    for (String k in key.split("/")) {
+      cdata = (cdata[k] ?? <String, dynamic>{}) as dynamic;
     }
     return cdata;
   }
@@ -102,7 +101,7 @@ class Room {
   }
 
   String? getString(String key) {
-    var cdata =  getKey(key);
+    var cdata = getKey(key);
     try {
       return cdata as String;
     } catch (e) {
@@ -111,7 +110,7 @@ class Room {
   }
 
   bool? getBool(String key) {
-    var cdata =  getKey(key);
+    var cdata = getKey(key);
     try {
       return cdata as bool;
     } catch (e) {
@@ -120,7 +119,7 @@ class Room {
   }
 
   double? getDouble(String key) {
-    var cdata =  getKey(key);
+    var cdata = getKey(key);
     try {
       return cdata as double;
     } catch (e) {
@@ -129,7 +128,7 @@ class Room {
   }
 
   int? getInt(String key) {
-    var cdata =  getKey(key);
+    var cdata = getKey(key);
     try {
       return cdata as int;
     } catch (e) {
@@ -137,24 +136,26 @@ class Room {
     }
   }
 
-  T? get<T> (String key) {
-    var cdata =  getKey(key);
+  T? get<T>(String key) {
+    var cdata = getKey(key);
     try {
       return cdata as T;
     } catch (e) {
       return null;
-    } 
+    }
   }
 
-
   void join(String myName) async {
-
     String? n = ((await ref!.child("gameName").get()).value as String?);
-    if (n==null) {
+    if (n == null) {
       return;
     }
 
-    if (!gameManager.getGame(n).usesLobby || gameManager.getGame(n).canPostjoin || inLobby || players.length < (gameManager.getGame(n).maxPlayers??(players.length+1))) {
+    if (!gameManager.getGame(n).usesLobby ||
+        gameManager.getGame(n).canPostjoin ||
+        inLobby ||
+        players.length <
+            (gameManager.getGame(n).maxPlayers ?? (players.length + 1))) {
       myDataRef = ref!.child("players").child(myName);
       myDataRef.set(true);
       myDataRef.onDisconnect().remove();
@@ -177,7 +178,6 @@ class Room {
         ref!.child("admin").set(players.first);
       }
     }
-
   }
 
   bool joined(String uid) {
@@ -188,10 +188,9 @@ class Room {
     await myDataRef.remove();
     // if (players.isEmpty) {
     //   await ref!.remove();
-    // } else 
+    // } else
     if (adminId == gameManager.username) {
       await ref!.child("admin").set(players.first);
     }
   }
-
 }
