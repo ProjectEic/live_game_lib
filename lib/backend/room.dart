@@ -85,18 +85,27 @@ class Room {
   dynamic getKey(String key) {
     dynamic cdata = data;
     for (String k in key.split("/")) {
-      cdata = (cdata[k] ?? <String, dynamic>{}) as dynamic;
+      cdata = cdata[k] as dynamic;
+      if (cdata == null) {
+        return null;
+      }
     }
     return cdata;
   }
 
   Map<String, T> getMap<T>(String key) {
     var cdata = getKey(key);
+    if (cdata == null) {
+      return {};
+    }
     return Map<String, T>.from(cdata as Map<String, dynamic>);
   }
 
   List getList<T>(String key) {
     var cdata = getKey(key);
+    if (cdata == null) {
+      return [];
+    }
     return List<T>.from(cdata.values.toList());
   }
 
