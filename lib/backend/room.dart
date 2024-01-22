@@ -103,7 +103,6 @@ class Room {
   String? getString(String key) {
     var cdata = getKey(key);
     try {
-      print(cdata);
       return cdata as String;
     } catch (e) {
       return null;
