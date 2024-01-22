@@ -83,7 +83,7 @@ class Room {
   }
 
   dynamic getKey(String key) {
-    var cdata = data;
+    dynamic cdata = data;
     for (String k in key.split("/")) {
       cdata = (cdata[k] ?? <String, dynamic>{}) as dynamic;
     }
@@ -103,6 +103,7 @@ class Room {
   String? getString(String key) {
     var cdata = getKey(key);
     try {
+      print(cdata);
       return cdata as String;
     } catch (e) {
       return null;
