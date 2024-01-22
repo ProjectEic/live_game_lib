@@ -9,8 +9,20 @@ class FrenchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlayingCardView(
-      card: PlayingCard(suit, cardValue),
+    return Stack(
+      children: <Widget>[
+        PlayingCardView(
+          card: PlayingCard(suit, cardValue),
+        ),
+        const Positioned(
+          left: 15,
+          bottom: 15,
+          child: Text(
+            'Your Text Here',
+            style: TextStyle(fontSize: 28),
+          ),
+        ),
+      ],
     );
   }
 }

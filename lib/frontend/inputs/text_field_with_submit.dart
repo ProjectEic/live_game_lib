@@ -1,63 +1,66 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class TextFieldWithSubmit extends StatefulWidget {
+class TextFieldWithSubmit extends StatelessWidget {
   final String hintText;
   final String buttonText;
   final Color buttonColor;
   final EdgeInsets paddingBetweenButtonAndTextField;
+  final double distanceBetweenInputAndButton;
   final double borderRadius;
   final double buttonElevation;
   final TextStyle buttonTextStyle;
   final InputDecoration? inputDecoration;
+  final MainAxisAlignment? mainAxisAlignment;
+  final TextEditingController controller;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatter;
   final Function onPressed;
 
   const TextFieldWithSubmit({
     Key? key,
     this.hintText = 'Enter text',
     this.buttonText = 'Submit',
-    this.buttonColor = Colors.blue,
-    this.buttonElevation = 4,
+    this.buttonColor = Colors.black,
+    this.buttonElevation = 4.0,
     this.inputDecoration,
+    this.distanceBetweenInputAndButton = 20.0,
     this.paddingBetweenButtonAndTextField =
-        const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-    this.borderRadius = 8,
-    this.buttonTextStyle = const TextStyle(fontSize: 16),
+        const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+    this.borderRadius = 8.0,
+    this.buttonTextStyle = const TextStyle(fontSize: 16.0, color: Colors.white),
+    this.mainAxisAlignment,
+    this.keyboardType,
+    this.inputFormatter,
+    required this.controller,
     required this.onPressed,
   }) : super(key: key);
 
   @override
-  _TextFieldWithSubmitState createState() => _TextFieldWithSubmitState();
-}
-
-class _TextFieldWithSubmitState extends State<TextFieldWithSubmit> {
-  final TextEditingController _textEditingController = TextEditingController();
-
-  @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.spaceEvenly,
       children: [
         TextField(
-          controller: _textEditingController,
-          decoration: widget.inputDecoration ??
-              InputDecoration(
-                hintText: widget.hintText,
-              ),
+          controller: controller,
+          decoration: inputDecoration ?? InputDecoration(hintText: hintText),
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatter,
         ),
+        SizedBox(height: distanceBetweenInputAndButton),
         ElevatedButton(
-          onPressed: widget.onPressed(),
+          onPressed: () => onPressed(),
           style: ElevatedButton.styleFrom(
-            backgroundColor: widget.buttonColor,
-            padding: widget.paddingBetweenButtonAndTextField,
+            backgroundColor: buttonColor,
+            padding: paddingBetweenButtonAndTextField,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(widget.borderRadius),
+              borderRadius: BorderRadius.circular(borderRadius),
             ),
-            elevation: widget.buttonElevation,
+            elevation: buttonElevation,
           ),
           child: Text(
-            widget.buttonText,
-            style: widget.buttonTextStyle,
+            buttonText,
+            style: buttonTextStyle,
           ),
         ),
       ],

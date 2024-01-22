@@ -2,6 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/room.dart';
 import 'package:live_game_lib/frontend/inputs/text_field_with_submit.dart';
+import 'package:live_game_lib/frontend/text/headline.dart';
+import 'package:live_game_lib/frontend/buttons/button_list.dart';
+import 'package:live_game_lib/frontend/buttons/button_instance.dart';
+import 'package:live_game_lib/frontend/text/sub_heading.dart';
 
 Widget guessTheWordScreen(BuildContext context, Room r) {
   String currentQuestion = r.getString("currentQuestion") ?? "";
@@ -16,12 +20,15 @@ Widget guessTheWordScreen(BuildContext context, Room r) {
       child: SizedBox(
         width: min(MediaQuery.of(context).size.width, 600),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            const Text(
-              'This is the guess the word game',
+            const Headline(
+              text: 'This is the guess the word game',
             ),
-            const Text("Answered questions:"),
+            r.amAdmin()
+                ? getAdminView(context, r, currentQuestion)
+                : getNonAdminView(context, r, currentQuestion),
+            const SubHeading(text: "Answered questions:"),
             ListView.builder(
               shrinkWrap: true,
               itemCount: answeredQuestions.length,
@@ -39,16 +46,14 @@ Widget guessTheWordScreen(BuildContext context, Room r) {
             const Padding(
               padding: EdgeInsets.all(10),
             ),
-            Text(currentQuestion != ""
-                ? "Waiting for Question"
-                : "No question yet!"),
+            SubHeading(
+                text: currentQuestion != ""
+                    ? "Waiting for Question"
+                    : "No question yet!"),
             Text(currentQuestion),
             const Padding(
               padding: EdgeInsets.all(10),
             ),
-            r.amAdmin()
-                ? getAdminView(context, r, currentQuestion)
-                : getNonAdminView(context, r, currentQuestion),
           ],
         ),
       ),
@@ -60,49 +65,68 @@ Widget getAdminView(BuildContext b, Room r, String currentQuestion) {
   if (currentQuestion == "") {
     return Container();
   }
-  return Column(
-    children: [
-      ElevatedButton(
-        child: const Text("Yes"),
-        onPressed: () {
-          r.set("answers/$currentQuestion", false);
-          r.set("currentQuestion", "");
-        },
+
+  List<Button> buttons = [
+    Button(
+      label: "Yes",
+      onPressed: () {
+        r.set("answers/$currentQuestion", true);
+        r.set("currentQuestion", "");
+      },
+    ),
+    Button(
+      label: "No",
+      onPressed: () {
+        r.set("answers/$currentQuestion", false);
+        r.set("currentQuestion", "");
+      },
+    ),
+    Button(
+      label: "You got it!",
+      onPressed: () {
+        r.goBackToLobby();
+      },
+    ),
+  ];
+
+  return ButtonList(
+    buttons: buttons,
+    buttonStyle: ButtonStyle(
+      textStyle: MaterialStateProperty.all(
+        TextStyle(fontSize: 20, color: Theme.of(b).colorScheme.onPrimary),
       ),
-      ElevatedButton(
-        child: const Text("No"),
-        onPressed: () {
-          r.set("answers/$currentQuestion", false);
-          r.set("currentQuestion", "");
-        },
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+          side: BorderSide(color: Theme.of(b).colorScheme.primary),
+        ),
       ),
-      ElevatedButton(
-        child: const Text("You got it!"),
-        onPressed: () {
-          r.goBackToLobby();
-        },
-      )
-    ],
+      backgroundColor: MaterialStateProperty.all(
+        Theme.of(b).colorScheme.primaryContainer,
+      ),
+    ),
   );
 }
 
 Widget getNonAdminView(BuildContext b, Room r, String currentQuestion) {
   TextEditingController controller = TextEditingController();
+
   if (currentQuestion != "") {
     return Container();
   }
   return Column(
     children: [
-      const Text("Type a question: "),
-      TextField(
-        controller: controller,
-      ),
-      ElevatedButton(
-        child: const Text("Submit"),
+      const Headline(text: "Type a question: "),
+      TextFieldWithSubmit(
         onPressed: () {
-          r.set("currentQuestion", controller.text);
+          r.set(
+            "currentQuestion",
+            controller.text,
+          );
         },
-      )
+        controller: controller,
+        hintText: "Enter your question here",
+      ),
     ],
   );
 }
