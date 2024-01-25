@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/gamemanager.dart';
 
 
-GameManager inst = GameManager(games: games);
+GameManager? inst;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       initialRoute: '/',
-      routes: inst.routes
+      routes: inst?.routes
     );
 
   }

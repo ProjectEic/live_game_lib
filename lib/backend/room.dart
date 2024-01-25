@@ -15,7 +15,7 @@ class Room {
 
   Room(this._id, this.gameManager, {DatabaseReference? lref, String? adminId}) {
     if (lref == null) {
-      ref = FirebaseDatabase.instance.ref("rooms").child(_id);
+      ref = gameManager.roomRef!.child(_id);
     } else {
       ref = lref;
     }

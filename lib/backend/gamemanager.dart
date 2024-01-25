@@ -12,10 +12,13 @@ import 'package:live_game_lib/frontend/game_state_screens/room_selection_screen.
 class GameManager {
 
   DatabaseReference? _roomsRef;
+  DatabaseReference? get roomRef => _roomsRef;
 
   Map<String, Game> _gameMap = {};
 
   String username = "";
+
+  String databaseRefStr = "roooms";
 
   Widget roomNotFoundWidget;
 
@@ -29,12 +32,14 @@ class GameManager {
     {
     Map<String, Game> games = const {},
     this.username = "Player",
+    String? databaseRefInp,
     Widget? homeScreen,
     Widget? joinRoomScreen,
     this.lobbyScreenGenerator = generateDefaultLobbyScreen,
     this.roomNotFoundWidget = const GameNotFound(),
   }) {
-    _roomsRef = FirebaseDatabase.instance.ref("rooms");
+    databaseRefStr = databaseRefInp ?? databaseRefStr;
+    _roomsRef = FirebaseDatabase.instance.ref(databaseRefStr);
     _gameMap = games;
     this.homeScreen = homeScreen ?? DefaultHome(this);
     this.joinRoomScreen = joinRoomScreen ?? DefaultJoinRoomScreen(this);
