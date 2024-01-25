@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/room.dart';
 import 'package:live_game_lib/frontend/inputs/text_field_with_submit.dart';
@@ -6,56 +5,52 @@ import 'package:live_game_lib/frontend/text/headline.dart';
 import 'package:live_game_lib/frontend/buttons/button_list.dart';
 import 'package:live_game_lib/frontend/buttons/button_instance.dart';
 import 'package:live_game_lib/frontend/text/sub_heading.dart';
+import 'package:live_game_lib/frontend/wrapper/flex/column_space_evenly.dart';
+import 'package:live_game_lib/frontend/wrapper/scaffold_min_width.dart';
 
 Widget guessTheWordScreen(BuildContext context, Room r) {
   String currentQuestion = r.getString("currentQuestion") ?? "";
   Map<String, bool> answers = r.getMap("answers");
   List<String> answeredQuestions = answers.keys.toList();
 
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text("Guess the word"),
-    ),
+  return ScaffoldMinWidth(
+    title: const Text("Guess the word"),
     body: Center(
-      child: SizedBox(
-        width: min(MediaQuery.of(context).size.width, 600),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            const Headline(
-              text: 'This is the guess the word game',
-            ),
-            r.amAdmin()
-                ? getAdminView(context, r, currentQuestion)
-                : getNonAdminView(context, r, currentQuestion),
-            const SubHeading(text: "Answered questions:"),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: answeredQuestions.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(answeredQuestions[index]),
-                  subtitle: Text(
-                      "Answer: ${(answers[answeredQuestions[index]]!) ? "Yes" : "No"}"),
-                  trailing: answers[answeredQuestions[index]] ?? false
-                      ? const Icon(Icons.check)
-                      : const Icon(Icons.close),
-                );
-              },
-            ),
-            const Padding(
-              padding: EdgeInsets.all(10),
-            ),
-            SubHeading(
-                text: currentQuestion != ""
-                    ? "Waiting for Question"
-                    : "No question yet!"),
-            Text(currentQuestion),
-            const Padding(
-              padding: EdgeInsets.all(10),
-            ),
-          ],
-        ),
+      child: ColumnSpaceEvenly(
+        children: <Widget>[
+          const Headline(
+            text: "This is the guess the word game",
+          ),
+          r.amAdmin()
+              ? getAdminView(context, r, currentQuestion)
+              : getNonAdminView(context, r, currentQuestion),
+          const SubHeading(text: "Answered questions:"),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: answeredQuestions.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(answeredQuestions[index]),
+                subtitle: Text(
+                    "Answer: ${(answers[answeredQuestions[index]]!) ? "Yes" : "No"}"),
+                trailing: answers[answeredQuestions[index]] ?? false
+                    ? const Icon(Icons.check)
+                    : const Icon(Icons.close),
+              );
+            },
+          ),
+          const Padding(
+            padding: EdgeInsets.all(10),
+          ),
+          SubHeading(
+              text: currentQuestion != ""
+                  ? "Waiting for Question"
+                  : "No question yet!"),
+          Text(currentQuestion),
+          const Padding(
+            padding: EdgeInsets.all(10),
+          ),
+        ],
       ),
     ),
   );
