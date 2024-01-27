@@ -54,6 +54,8 @@ class Room {
 
   String get adminId => (data["admin"] ?? "") as String;
 
+  String get myId => gameManager.username;
+
   bool get inLobby => (data["inLobby"] ?? false) as bool;
 
   String get id => _id;
