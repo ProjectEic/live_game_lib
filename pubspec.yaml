@@ -13,11 +13,6 @@ false_secrets:
   - /example/web
   - /example/windows
 
-platforms:
-  ios: 10.0
-  android: 16
-  web: 2.0.0
-  
 environment:
   sdk: '>=3.0.0 <4.0.0'
   flutter: ">=1.17.0"
