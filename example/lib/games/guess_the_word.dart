@@ -57,9 +57,8 @@ Widget guessTheWordScreen(BuildContext context, Room r) {
 }
 
 Widget getAdminView(BuildContext b, Room r, String currentQuestion) {
-  if (currentQuestion == "") {
-    return Container();
-  }
+  if (currentQuestion == "") return Container();
+  
 
   List<Button> buttons = [
     Button(
@@ -106,9 +105,8 @@ Widget getAdminView(BuildContext b, Room r, String currentQuestion) {
 Widget getNonAdminView(BuildContext b, Room r, String currentQuestion) {
   TextEditingController controller = TextEditingController();
 
-  if (currentQuestion != "") {
-    return Container();
-  }
+  if (currentQuestion != "") return Container();
+
   return Column(
     children: [
       const Headline(text: "Type a question: "),
