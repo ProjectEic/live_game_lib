@@ -78,3 +78,5 @@ class MyApp extends StatelessWidget {
 }
 ```
 
+
+6. For more examples, see the example project in the example folder
