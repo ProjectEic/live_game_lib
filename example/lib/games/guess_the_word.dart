@@ -58,7 +58,6 @@ Widget guessTheWordScreen(BuildContext context, Room r) {
 
 Widget getAdminView(BuildContext b, Room r, String currentQuestion) {
   if (currentQuestion == "") return Container();
-  
 
   List<Button> buttons = [
     Button(

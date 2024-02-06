@@ -5,12 +5,11 @@ import 'package:live_game_lib/backend/gamemanager.dart';
 import 'package:live_game_lib/backend/room.dart';
 
 class DefaultHome extends StatelessWidget {
-
   final GameManager gameManager;
 
-  const DefaultHome(this.gameManager,{
+  const DefaultHome(
+    this.gameManager, {
     Key? key,
-
   }) : super(key: key);
 
   @override
@@ -91,8 +90,8 @@ class DefaultHome extends StatelessWidget {
                           TextButton(
                             onPressed: () async {
                               Navigator.of(context).pop();
-                              Room r = await gameManager
-                                  .createRoom(usernameController.text, key);
+                              Room r = await gameManager.createRoom(
+                                  usernameController.text, key);
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => r.getGameView()));
                             },

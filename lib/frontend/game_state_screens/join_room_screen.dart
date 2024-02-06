@@ -4,15 +4,16 @@ import 'package:live_game_lib/backend/room.dart';
 
 class DefaultJoinRoomScreen extends StatefulWidget {
   final GameManager gameManager;
-  const DefaultJoinRoomScreen(this.gameManager,
-    {
+  const DefaultJoinRoomScreen(
+    this.gameManager, {
     Key? key,
   }) : super(key: key);
 
-
   @override
   // ignore: no_logic_in_create_state
-  State<DefaultJoinRoomScreen> createState() => _JoinRoomScreenState(gameManager);
+  State<DefaultJoinRoomScreen> createState() =>
+      // ignore: no_logic_in_create_state
+      _JoinRoomScreenState(gameManager);
 }
 
 class _JoinRoomScreenState extends State<DefaultJoinRoomScreen> {
@@ -28,7 +29,7 @@ class _JoinRoomScreenState extends State<DefaultJoinRoomScreen> {
       appBar: AppBar(
         title: const Text(
           "Join Room",
-          style:  TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -69,8 +70,8 @@ class _JoinRoomScreenState extends State<DefaultJoinRoomScreen> {
               ElevatedButton(
                 onPressed: () {
                   Room r = gameManager.getRoom(roomIDController.text);
-                  Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => r.getGameView()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => r.getGameView()));
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(

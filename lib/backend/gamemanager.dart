@@ -10,7 +10,6 @@ import 'package:live_game_lib/frontend/game_state_screens/lobby_screen.dart';
 import 'package:live_game_lib/frontend/game_state_screens/room_selection_screen.dart';
 
 class GameManager {
-
   DatabaseReference? _roomsRef;
   DatabaseReference? get roomRef => _roomsRef;
 
@@ -28,8 +27,7 @@ class GameManager {
 
   Widget Function(BuildContext, Room) lobbyScreenGenerator;
 
-  GameManager(
-    {
+  GameManager({
     Map<String, Game> games = const {},
     this.username = "Player",
     String? databaseRefInp,
@@ -70,7 +68,6 @@ class GameManager {
         '/join_room_screen': (context) => joinRoomScreen!,
       };
 
-
   Room getRoom(String id) {
     return Room(id, this, lref: _roomsRef!.child(id));
   }
@@ -79,6 +76,7 @@ class GameManager {
     return Random().nextInt(100000).toString();
   }
 
+  /// Function to create a room
   Future<Room> createRoom(String adminId, String gameName) async {
     DatabaseReference ref = _roomsRef!.child(generateRandomRoomId());
     await ref.set(_gameMap[gameName]!.prefabData);

@@ -49,7 +49,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '346505806050',
     projectId: 'gamelibary-482dd',
     authDomain: 'gamelibary-482dd.firebaseapp.com',
-    databaseURL: 'https://gamelibary-482dd-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://gamelibary-482dd-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'gamelibary-482dd.appspot.com',
   );
 
@@ -58,7 +59,8 @@ class DefaultFirebaseOptions {
     appId: '1:346505806050:android:89e14c9e27e47cec07debb',
     messagingSenderId: '346505806050',
     projectId: 'gamelibary-482dd',
-    databaseURL: 'https://gamelibary-482dd-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://gamelibary-482dd-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'gamelibary-482dd.appspot.com',
   );
 
@@ -67,7 +69,8 @@ class DefaultFirebaseOptions {
     appId: '1:346505806050:ios:44b4d45ee3c5b36f07debb',
     messagingSenderId: '346505806050',
     projectId: 'gamelibary-482dd',
-    databaseURL: 'https://gamelibary-482dd-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://gamelibary-482dd-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'gamelibary-482dd.appspot.com',
     iosBundleId: 'com.example.example',
   );
@@ -77,7 +80,8 @@ class DefaultFirebaseOptions {
     appId: '1:346505806050:ios:cb0f96382640370a07debb',
     messagingSenderId: '346505806050',
     projectId: 'gamelibary-482dd',
-    databaseURL: 'https://gamelibary-482dd-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://gamelibary-482dd-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'gamelibary-482dd.appspot.com',
     iosBundleId: 'com.example.example.RunnerTests',
   );

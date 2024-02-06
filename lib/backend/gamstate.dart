@@ -3,10 +3,8 @@ import 'package:live_game_lib/backend/game_prefab.dart';
 import 'package:live_game_lib/backend/gamemanager.dart';
 import 'package:live_game_lib/backend/room.dart';
 
-
-
+/// A class to represent the View of a Game
 class GameView extends StatefulWidget {
-
   final Room room;
   final GameManager gameMa;
 
@@ -19,7 +17,6 @@ class GameView extends StatefulWidget {
   }
 }
 
-
 class _GameState extends State<GameView> {
   final Room room;
   final GameManager gameManager;
@@ -29,16 +26,13 @@ class _GameState extends State<GameView> {
   @override
   void initState() {
     super.initState();
-    room.addDataListener(
-        (data) { 
-          setState(() {}); 
-        }
-    );
+    room.addDataListener((data) {
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
     if (!room.joined(gameManager.username)) {
       room.join(gameManager.username);
     }

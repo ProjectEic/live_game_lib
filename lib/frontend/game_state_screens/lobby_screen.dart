@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/room.dart';
 
-
 Widget generateDefaultLobbyScreen(BuildContext context, Room room) {
-
   return Scaffold(
     appBar: AppBar(
       title: Row(
@@ -32,8 +30,7 @@ Widget generateDefaultLobbyScreen(BuildContext context, Room room) {
           children: <Widget>[
             Text(
               room.id,
-              style:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Expanded(
@@ -55,7 +52,7 @@ Widget generateDefaultLobbyScreen(BuildContext context, Room room) {
                 },
               ),
             ),
-            if (room.isAdmin(room.gameManager.username)) 
+            if (room.isAdmin(room.gameManager.username))
               ElevatedButton(
                 onPressed: () {
                   room.startGame();
@@ -74,8 +71,7 @@ Widget generateDefaultLobbyScreen(BuildContext context, Room room) {
                 child: Text(
                   'Start',
                   style: TextStyle(
-                    fontSize:
-                        Theme.of(context).textTheme.bodyMedium!.fontSize,
+                    fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
@@ -87,4 +83,3 @@ Widget generateDefaultLobbyScreen(BuildContext context, Room room) {
     ),
   );
 }
-

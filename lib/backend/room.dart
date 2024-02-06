@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/gamemanager.dart';
 import 'package:live_game_lib/backend/gamstate.dart';
 
+
+/// A class to represent a room
 class Room {
   final String _id;
 
   final GameManager gameManager;
 
   DatabaseReference? ref;
+
+  // holds the current json data of the Room
   Map<String, dynamic> data = {};
 
   late DatabaseReference myDataRef;
@@ -45,41 +49,53 @@ class Room {
     });
   }
 
+  /// A list of players in the room
   List<String> get players =>
       ((data["players"] ?? <String, dynamic>{}) as Map<String, dynamic>)
           .keys
           .toList();
 
+  /// The name of the current game
   String get gameName => (data["gameName"] ?? "") as String;
 
+  /// The admin of the room
   String get adminId => (data["admin"] ?? "") as String;
 
+  /// The id of the current user
   String get myId => gameManager.username;
 
+  /// Whether the room is in the lobby
   bool get inLobby => (data["inLobby"] ?? false) as bool;
-
+  
+  /// The id of the room
   String get id => _id;
 
+  /// Whether the sone user is the admin
   bool isAdmin(String uid) {
     return adminId == uid;
   }
 
+  /// Whether the current user is the admin
   bool amAdmin() {
     return isAdmin(gameManager.username);
   }
 
+  /// Function to start the game
   Future<bool> startGame() {
     return ref!.child("inLobby").set(false).then((value) => true);
   }
 
+  /// Function to go back to the lobby
   Future<bool> goBackToLobby() {
     return ref!.child("inLobby").set(true).then((value) => true);
   }
 
+  /// Function to set a value of a key in the room
   Future<bool> set(String key, dynamic value) {
     return ref!.child(key).set(value).then((value) => true);
   }
 
+  /// Function to add a value to a list in the room
   Future<bool> addToList(String key, dynamic value) {
     return ref!.child(key).push().set(value).then((value) => true);
   }
@@ -95,6 +111,7 @@ class Room {
     return cdata;
   }
 
+  /// Function to get a map from the room
   Map<String, T> getMap<T>(String key) {
     var cdata = getKey(key);
     if (cdata == null) {
@@ -103,6 +120,7 @@ class Room {
     return Map<String, T>.from(cdata as Map<String, dynamic>);
   }
 
+  /// Function to get a list from the room
   List getList<T>(String key) {
     var cdata = getKey(key);
     if (cdata == null) {
@@ -111,6 +129,7 @@ class Room {
     return List<T>.from(cdata.values.toList());
   }
 
+  /// Function to get a string from the room
   String? getString(String key) {
     var cdata = getKey(key);
     try {
@@ -120,6 +139,7 @@ class Room {
     }
   }
 
+  /// Function to get a bool from the room
   bool? getBool(String key) {
     var cdata = getKey(key);
     try {
@@ -129,6 +149,7 @@ class Room {
     }
   }
 
+  /// Function to get a double from the room
   double? getDouble(String key) {
     var cdata = getKey(key);
     try {
@@ -138,6 +159,7 @@ class Room {
     }
   }
 
+  /// Function to get an int from the room
   int? getInt(String key) {
     var cdata = getKey(key);
     try {
@@ -147,6 +169,7 @@ class Room {
     }
   }
 
+  /// Function to get a value from the room
   T? get<T>(String key) {
     var cdata = getKey(key);
     try {
@@ -156,6 +179,7 @@ class Room {
     }
   }
 
+  /// Function to join the room
   void join(String myName) async {
     String? n = ((await ref!.child("gameName").get()).value as String?);
     if (n == null) {
@@ -191,10 +215,12 @@ class Room {
     }
   }
 
+  /// Function to check if a user has joined the room
   bool joined(String uid) {
     return players.contains(uid);
   }
-
+  
+  /// Function to leave a room
   Future<void> disconnect() async {
     await myDataRef.remove();
     // if (players.isEmpty) {
