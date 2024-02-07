@@ -1,11 +1,11 @@
-# Live Game Libary
-A Flutter Libary for creating Games fast 
+# Live Game Library
+A Flutter Library for creating Games fast 
 
 ## Getting Started
 
 1. Setup your Firebase project and [add it to project ](https://firebase.google.com/docs/database/android/start?hl=de)
-2. Setup you realtime database realtime database
-3. Import this Libary and create your List of Games
+2. Setup you real time database real time database
+3. Import this library and create your list of games
 ```dart
 import 'package:example/games/guess_the_word.dart';
 import 'package:live_game_lib/backend/game_prefab.dart';
