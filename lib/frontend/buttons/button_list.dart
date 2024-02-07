@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'button_instance.dart';
 
+/// A List of buttons with a given style for every button
 class ButtonList extends StatelessWidget {
   final List<Button> buttons;
   final ButtonStyle buttonStyle;

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/gamemanager.dart';
 import 'package:live_game_lib/backend/gamstate.dart';
 
-
 /// A class to represent a room
 class Room {
   final String _id;
@@ -66,7 +65,7 @@ class Room {
 
   /// Whether the room is in the lobby
   bool get inLobby => (data["inLobby"] ?? false) as bool;
-  
+
   /// The id of the room
   String get id => _id;
 
@@ -219,7 +218,7 @@ class Room {
   bool joined(String uid) {
     return players.contains(uid);
   }
-  
+
   /// Function to leave a room
   Future<void> disconnect() async {
     await myDataRef.remove();

@@ -3,3 +3,6 @@
 
 ## 0.0.2
 * Started Documentation
+
+## 0.0.3
+* Better Documentation

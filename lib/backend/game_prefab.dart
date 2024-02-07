@@ -14,7 +14,7 @@ class Game {
   int? maxPlayers;
 
   Widget Function(BuildContext, Room) screen;
-  
+
   /// A class to represent a game prefab
   /// @param name The name of the game
   /// @param screen The screen to display for the game

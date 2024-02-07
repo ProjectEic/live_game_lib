@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// A number input field
 class NumberInput extends StatelessWidget {
   final double value;
 

@@ -9,6 +9,7 @@ import 'package:live_game_lib/frontend/game_state_screens/join_room_screen.dart'
 import 'package:live_game_lib/frontend/game_state_screens/lobby_screen.dart';
 import 'package:live_game_lib/frontend/game_state_screens/room_selection_screen.dart';
 
+/// A class to manage the games
 class GameManager {
   DatabaseReference? _roomsRef;
   DatabaseReference? get roomRef => _roomsRef;
@@ -48,6 +49,7 @@ class GameManager {
     return name;
   }
 
+  /// Function to get a game prefab
   Game getGame(String name) {
     return _gameMap[name]!;
   }

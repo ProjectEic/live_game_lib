@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// An input field with a submit button
 class TextFieldWithSubmit extends StatelessWidget {
   final String hintText;
   final String buttonText;
