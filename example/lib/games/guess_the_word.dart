@@ -8,6 +8,7 @@ import 'package:live_game_lib/frontend/text/sub_heading.dart';
 import 'package:live_game_lib/frontend/wrapper/flex/column_space_evenly.dart';
 import 'package:live_game_lib/frontend/wrapper/scaffold_min_width.dart';
 
+/// Generates the screen for the "Guess the Word" game.
 Widget guessTheWordScreen(BuildContext context, Room r) {
   String currentQuestion = r.getString("currentQuestion") ?? "";
   Map<String, bool> answers = r.getMap("answers");
@@ -56,6 +57,7 @@ Widget guessTheWordScreen(BuildContext context, Room r) {
   );
 }
 
+/// Builds the admin view for the "Guess the Word" game.
 Widget getAdminView(BuildContext b, Room r, String currentQuestion) {
   if (currentQuestion == "") return Container();
 
@@ -101,6 +103,7 @@ Widget getAdminView(BuildContext b, Room r, String currentQuestion) {
   );
 }
 
+/// Builds the non-admin view for the "Guess the Word" game.
 Widget getNonAdminView(BuildContext b, Room r, String currentQuestion) {
   TextEditingController controller = TextEditingController();
 

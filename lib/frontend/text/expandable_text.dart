@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 
+/// A widget that displays text and can expand or collapse based on a word limit.
 class ExpandableText extends StatefulWidget {
+  /// The full text to be displayed.
   final String text;
+
+  /// The word limit for the initial display before expanding.
   final int wordLimit;
+
+  /// The text style for the displayed text.
   final TextStyle textStyle;
 
+  /// Constructs an [ExpandableText] widget.
+  ///
+  /// The [text] parameter is required and represents the full text to be displayed.
+  /// The [wordLimit] parameter is required and sets the word limit for the initial display before expanding.
+  /// The [textStyle] parameter is required and represents the text style for the displayed text.
   const ExpandableText({
     Key? key,
     required this.text,
@@ -22,6 +33,7 @@ class _ExpandableTextState extends State<ExpandableText> {
 
   @override
   Widget build(BuildContext context) {
+    // Determine the text to be displayed based on the word limit
     String displayText = widget.text;
     if (!showFullText && widget.text.split(' ').length > widget.wordLimit) {
       displayText =
@@ -30,6 +42,7 @@ class _ExpandableTextState extends State<ExpandableText> {
 
     return GestureDetector(
       onTap: () {
+        // Toggle between showing full text and truncated text on tap
         setState(() {
           showFullText = !showFullText;
         });

@@ -7,7 +7,6 @@ import 'package:live_game_lib/frontend/game_state_screens/game_not_found.dart';
 import 'package:live_game_lib/frontend/game_state_screens/home_screen.dart';
 import 'package:live_game_lib/frontend/game_state_screens/join_room_screen.dart';
 import 'package:live_game_lib/frontend/game_state_screens/lobby_screen.dart';
-import 'package:live_game_lib/frontend/game_state_screens/room_selection_screen.dart';
 
 /// A class to manage the games
 class GameManager {
@@ -66,7 +65,6 @@ class GameManager {
             args['room'],
           );
         },
-        '/room_selection_screen': (context) => const RoomSelectionScreen(),
         '/join_room_screen': (context) => joinRoomScreen!,
       };
 

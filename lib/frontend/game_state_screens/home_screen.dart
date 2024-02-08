@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/gamemanager.dart';
 import 'package:live_game_lib/backend/room.dart';
 
+/// The default home screen displaying a list of available games and an option to join a room.
 class DefaultHome extends StatelessWidget {
+  /// The GameManager instance managing the games.
   final GameManager gameManager;
 
+  /// Constructs a [DefaultHome] widget.
+  ///
+  /// The [gameManager] parameter is required and represents the GameManager instance.
   const DefaultHome(
     this.gameManager, {
     Key? key,

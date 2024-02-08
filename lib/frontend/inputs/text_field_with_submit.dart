@@ -1,24 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// An input field with a submit button
+/// A widget representing an input field with a submit button.
 class TextFieldWithSubmit extends StatelessWidget {
+  /// The hint text for the input field.
   final String hintText;
+
+  /// The text displayed on the submit button.
   final String buttonText;
+
+  /// The color of the submit button.
   final Color buttonColor;
-  final EdgeInsets paddingBetweenButtonAndTextField;
-  final EdgeInsets padding;
-  final double distanceBetweenInputAndButton;
-  final double borderRadius;
+
+  /// The elevation of the submit button.
   final double buttonElevation;
+
+  /// The padding between the submit button and the input field.
+  final EdgeInsets paddingBetweenButtonAndTextField;
+
+  /// The overall padding around the entire widget.
+  final EdgeInsets padding;
+
+  /// The distance between the input field and the submit button.
+  final double distanceBetweenInputAndButton;
+
+  /// The border radius of the input field and the submit button.
+  final double borderRadius;
+
+  /// The text style of the submit button.
   final TextStyle buttonTextStyle;
+
+  /// The input decoration for the input field.
   final InputDecoration? inputDecoration;
+
+  /// The main axis alignment of the widget.
   final MainAxisAlignment? mainAxisAlignment;
+
+  /// The controller for the input field.
   final TextEditingController controller;
+
+  /// The keyboard type for the input field.
   final TextInputType? keyboardType;
+
+  /// The input formatters for the input field.
   final List<TextInputFormatter>? inputFormatter;
+
+  /// The function to be executed when the submit button is pressed.
   final Function onPressed;
 
+  /// Constructs a [TextFieldWithSubmit] widget.
+  ///
+  /// The [hintText] parameter is optional and provides hint text for the input field.
+  /// The [buttonText] parameter is optional and sets the text on the submit button.
+  /// The [buttonColor] parameter is optional and sets the color of the submit button.
+  /// The [buttonElevation] parameter is optional and sets the elevation of the submit button.
+  /// The [inputDecoration] parameter is optional and provides decoration for the input field.
+  /// The [distanceBetweenInputAndButton] parameter is optional and sets the distance between the input field and the submit button.
+  /// The [paddingBetweenButtonAndTextField] parameter is optional and sets the padding between the submit button and the input field.
+  /// The [borderRadius] parameter is optional and sets the border radius for the input field and submit button.
+  /// The [buttonTextStyle] parameter is optional and sets the text style for the submit button.
+  /// The [mainAxisAlignment] parameter is optional and sets the main axis alignment for the widget.
+  /// The [keyboardType] parameter is optional and sets the keyboard type for the input field.
+  /// The [inputFormatter] parameter is optional and sets the input formatters for the input field.
+  /// The [padding] parameter is optional and sets the overall padding for the widget.
+  /// The [controller] parameter is required and represents the controller for the input field.
+  /// The [onPressed] parameter is required and is the function to be executed when the submit button is pressed.
   const TextFieldWithSubmit({
     Key? key,
     this.hintText = 'Enter text',
@@ -34,8 +80,7 @@ class TextFieldWithSubmit extends StatelessWidget {
     this.mainAxisAlignment,
     this.keyboardType,
     this.inputFormatter,
-    this.padding =
-        const EdgeInsets.all(16.0), // Padding around the entire widget
+    this.padding = const EdgeInsets.all(16.0),
     required this.controller,
     required this.onPressed,
   }) : super(key: key);

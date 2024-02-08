@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/room.dart';
 
+/// Generates the default lobby screen for a given [Room].
+///
+/// This function returns a [Scaffold] widget representing the lobby screen,
+/// which includes the room title, ID, list of players, and start game button.
+///
+/// The [context] parameter is required and represents the build context.
+/// The [room] parameter is required and represents the Room for which the lobby screen is generated.
 Widget generateDefaultLobbyScreen(BuildContext context, Room room) {
   return Scaffold(
     appBar: AppBar(

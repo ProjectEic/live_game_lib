@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+/// A widget to display when a game is not found.
 class GameNotFound extends StatelessWidget {
-  const GameNotFound({super.key});
+  /// Constructs a [GameNotFound] widget.
+  ///
+  /// The [key] parameter is optional and is used to identify this widget in the widget tree.
+  const GameNotFound({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
