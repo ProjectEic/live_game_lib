@@ -7,6 +7,7 @@ class TextFieldWithSubmit extends StatelessWidget {
   final String buttonText;
   final Color buttonColor;
   final EdgeInsets paddingBetweenButtonAndTextField;
+  final EdgeInsets padding;
   final double distanceBetweenInputAndButton;
   final double borderRadius;
   final double buttonElevation;
@@ -33,38 +34,43 @@ class TextFieldWithSubmit extends StatelessWidget {
     this.mainAxisAlignment,
     this.keyboardType,
     this.inputFormatter,
+    this.padding =
+        const EdgeInsets.all(16.0), // Padding around the entire widget
     required this.controller,
     required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.spaceEvenly,
-      children: [
-        TextField(
-          controller: controller,
-          decoration: inputDecoration ?? InputDecoration(hintText: hintText),
-          keyboardType: keyboardType,
-          inputFormatters: inputFormatter,
-        ),
-        SizedBox(height: distanceBetweenInputAndButton),
-        ElevatedButton(
-          onPressed: () => onPressed(),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: buttonColor,
-            padding: paddingBetweenButtonAndTextField,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
+    return Padding(
+      padding: padding,
+      child: Column(
+        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.spaceEvenly,
+        children: [
+          TextField(
+            controller: controller,
+            decoration: inputDecoration ?? InputDecoration(hintText: hintText),
+            keyboardType: keyboardType,
+            inputFormatters: inputFormatter,
+          ),
+          SizedBox(height: distanceBetweenInputAndButton),
+          ElevatedButton(
+            onPressed: () => onPressed(),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: buttonColor,
+              padding: paddingBetweenButtonAndTextField,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              elevation: buttonElevation,
             ),
-            elevation: buttonElevation,
+            child: Text(
+              buttonText,
+              style: buttonTextStyle,
+            ),
           ),
-          child: Text(
-            buttonText,
-            style: buttonTextStyle,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

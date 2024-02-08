@@ -13,11 +13,6 @@ Widget generateDefaultLobbyScreen(BuildContext context, Room room) {
               fontWeight: FontWeight.bold,
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () =>
-                {Navigator.pushNamed(context, '/create_lobby_options')},
-          ),
         ],
       ),
     ),
