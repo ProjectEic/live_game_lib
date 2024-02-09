@@ -9,3 +9,6 @@
 
 ## 0.0.4
 * Example + Docs Update
+
+## 0.0.5
+* Hotfix

@@ -110,6 +110,7 @@ Widget getNonAdminView(BuildContext b, Room r, String currentQuestion) {
     children: [
       const Headline(text: "Type a question: "),
       TextFieldWithSubmit(
+        padding: const EdgeInsets.all(10),
         onPressed: (String word) {
           r.set(
             "currentQuestion",

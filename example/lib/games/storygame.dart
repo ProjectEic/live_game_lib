@@ -41,6 +41,7 @@ Widget addWordScreen(BuildContext context, Room r) {
             text: "Add words",
           ),
           TextFieldWithSubmit(
+            padding: const EdgeInsets.all(10),
             controller: wordController,
             onPressed: (String word) {
               r.addToList("words", word);
