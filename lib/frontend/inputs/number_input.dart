@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// A number input field
+/// A widget representing a number input field.
+///
+/// The [NumberInput] widget allows users to input numerical values.
 class NumberInput extends StatelessWidget {
+  /// The initial value of the number input field.
   final double value;
 
-  const NumberInput({super.key, required this.value});
+  /// Constructs a [NumberInput] widget.
+  ///
+  /// The [value] parameter is required and represents the initial value of the input field.
+  const NumberInput({Key? key, required this.value}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

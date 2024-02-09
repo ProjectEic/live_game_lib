@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
-/// A Column that has the main axis alignment set to spaceAround
+/// A custom widget that creates a column with space-around alignment for its children.
 class ColumnSpaceAround extends StatelessWidget {
+  /// The list of widgets to be displayed in the column.
   final List<Widget> children;
 
-  const ColumnSpaceAround({super.key, required this.children});
+  /// Constructs a [ColumnSpaceAround] widget.
+  ///
+  /// The [children] parameter is required and represents the list of widgets to be displayed in the column.
+  const ColumnSpaceAround({Key? key, required this.children}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

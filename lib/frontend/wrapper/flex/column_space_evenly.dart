@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
-/// A Column that has the main axis alignment set to spaceEvenly
+/// A custom widget that creates a column with space-evenly alignment for its children.
 class ColumnSpaceEvenly extends StatelessWidget {
+  /// The list of widgets to be displayed in the column.
   final List<Widget> children;
 
-  const ColumnSpaceEvenly({super.key, required this.children});
+  /// Constructs a [ColumnSpaceEvenly] widget.
+  ///
+  /// The [children] parameter is required and represents the list of widgets to be displayed in the column.
+  const ColumnSpaceEvenly({Key? key, required this.children}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: children,
     );
   }

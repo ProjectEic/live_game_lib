@@ -1,18 +1,24 @@
+// ignore_for_file: no_logic_in_create_state
+
 import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/gamemanager.dart';
 import 'package:live_game_lib/backend/room.dart';
 
+/// A StatefulWidget representing the default screen for joining a room.
 class DefaultJoinRoomScreen extends StatefulWidget {
+  /// The GameManager instance managing the games.
   final GameManager gameManager;
+
+  /// Constructs a [DefaultJoinRoomScreen] widget.
+  ///
+  /// The [gameManager] parameter is required and represents the GameManager instance.
   const DefaultJoinRoomScreen(
     this.gameManager, {
     Key? key,
   }) : super(key: key);
 
   @override
-  // ignore: no_logic_in_create_state
   State<DefaultJoinRoomScreen> createState() =>
-      // ignore: no_logic_in_create_state
       _JoinRoomScreenState(gameManager);
 }
 
@@ -21,6 +27,9 @@ class _JoinRoomScreenState extends State<DefaultJoinRoomScreen> {
   final roomIDController = TextEditingController();
   final GameManager gameManager;
 
+  /// Constructs the state for [DefaultJoinRoomScreen].
+  ///
+  /// The [gameManager] parameter is required and represents the GameManager instance.
   _JoinRoomScreenState(this.gameManager);
 
   @override

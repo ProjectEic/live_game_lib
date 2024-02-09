@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
-/// A Row that has the main axis alignment set to spaceEvenly
+/// A custom widget that creates a row with space-evenly alignment for its children.
 class RowSpaceEvenly extends StatelessWidget {
+  /// The list of widgets to be displayed in the row.
   final List<Widget> children;
 
-  const RowSpaceEvenly({super.key, required this.children});
+  /// Constructs a [RowSpaceEvenly] widget.
+  ///
+  /// The [children] parameter is required and represents the list of widgets to be displayed in the row.
+  const RowSpaceEvenly({Key? key, required this.children}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: children,
     );
   }
