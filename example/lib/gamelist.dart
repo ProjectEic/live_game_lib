@@ -12,7 +12,7 @@ Map<String, Game> games = {
   ),
   "story game": Game(
     "story game",
-    StroyGame,
+    storyGame,
     usesLobby: false,
     canPostjoin: true,
   ),

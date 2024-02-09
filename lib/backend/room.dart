@@ -138,7 +138,6 @@ class Room {
     return List<T>.from(cdata.values.toList());
   }
 
-
   /// Function to get a string from the room
   String? getString(String key) {
     var cdata = getKey(key);

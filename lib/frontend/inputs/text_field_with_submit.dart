@@ -59,8 +59,9 @@ class TextFieldWithSubmit extends StatelessWidget {
     this.mainAxisAlignment,
     this.keyboardType,
     this.inputFormatter,
-    controller ,
-    required this.onPressed, required this.padding,
+    controller,
+    required this.onPressed,
+    required this.padding,
   }) : super(key: key) {
     this.controller = controller ?? this.controller;
   }
@@ -80,7 +81,6 @@ class TextFieldWithSubmit extends StatelessWidget {
           ),
           SizedBox(height: distanceBetweenInputAndButton),
           ElevatedButton(
-            child: Text(hintText, style: buttonTextStyle),
             onPressed: () => onPressed(controller.text),
             style: ElevatedButton.styleFrom(
               backgroundColor: buttonColor,
@@ -89,6 +89,7 @@ class TextFieldWithSubmit extends StatelessWidget {
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
             ),
+            child: Text(hintText, style: buttonTextStyle),
           ),
         ],
       ),
