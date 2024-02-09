@@ -60,35 +60,38 @@ class TextFieldWithSubmit extends StatelessWidget {
     this.keyboardType,
     this.inputFormatter,
     controller ,
-    required this.onPressed,
+    required this.onPressed, required this.padding,
   }) : super(key: key) {
     this.controller = controller ?? this.controller;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.spaceEvenly,
-      children: [
-        TextField(
-          controller: controller,
-          decoration: inputDecoration ?? InputDecoration(hintText: hintText),
-          keyboardType: keyboardType,
-          inputFormatters: inputFormatter,
-        ),
-        SizedBox(height: distanceBetweenInputAndButton),
-        ElevatedButton(
-          child: Text(hintText, style: buttonTextStyle),
-          onPressed: () => onPressed(controller.text),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: buttonColor,
-            padding: paddingBetweenButtonAndTextField,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
+    return Padding(
+      padding: padding,
+      child: Column(
+        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.spaceEvenly,
+        children: [
+          TextField(
+            controller: controller,
+            decoration: inputDecoration ?? InputDecoration(hintText: hintText),
+            keyboardType: keyboardType,
+            inputFormatters: inputFormatter,
+          ),
+          SizedBox(height: distanceBetweenInputAndButton),
+          ElevatedButton(
+            child: Text(hintText, style: buttonTextStyle),
+            onPressed: () => onPressed(controller.text),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: buttonColor,
+              padding: paddingBetweenButtonAndTextField,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

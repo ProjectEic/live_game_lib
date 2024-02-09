@@ -108,6 +108,7 @@ class Room {
     }
   }
 
+  /// Function to get a value from the room
   dynamic getKey(String key) {
     dynamic cdata = data;
     for (String k in key.split("/")) {
