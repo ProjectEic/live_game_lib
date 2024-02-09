@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A Scaffhold that has a minimum width
 class ScaffoldMinWidth extends StatelessWidget {
   final Widget body;
   final double minWidth;

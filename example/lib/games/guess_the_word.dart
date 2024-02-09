@@ -21,7 +21,7 @@ Widget guessTheWordScreen(BuildContext context, Room r) {
           const Headline(
             text: "This is the guess the word game",
           ),
-          r.amAdmin()
+          r.amAdmin
               ? getAdminView(context, r, currentQuestion)
               : getNonAdminView(context, r, currentQuestion),
           const SubHeading(text: "Answered questions:"),
@@ -102,21 +102,17 @@ Widget getAdminView(BuildContext b, Room r, String currentQuestion) {
 }
 
 Widget getNonAdminView(BuildContext b, Room r, String currentQuestion) {
-  TextEditingController controller = TextEditingController();
-
   if (currentQuestion != "") return Container();
-
   return Column(
     children: [
       const Headline(text: "Type a question: "),
       TextFieldWithSubmit(
-        onPressed: () {
+        onPressed: (String word) {
           r.set(
             "currentQuestion",
-            controller.text,
+            word,
           );
         },
-        controller: controller,
         hintText: "Enter your question here",
       ),
     ],

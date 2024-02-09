@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A Column that has the main axis alignment set to end
 class ColumnCenter extends StatelessWidget {
   final List<Widget> children;
 

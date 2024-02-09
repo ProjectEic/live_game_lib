@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A Row that has the main axis alignment set to spaceBetween
 class RowSpaceBetween extends StatelessWidget {
   final List<Widget> children;
 

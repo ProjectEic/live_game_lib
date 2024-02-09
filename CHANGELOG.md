@@ -6,3 +6,6 @@
 
 ## 0.0.3
 * Better Documentation
+
+## 0.0.4
+* Example + Docs Update

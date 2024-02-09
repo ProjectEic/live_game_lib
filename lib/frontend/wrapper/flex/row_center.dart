@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A Row that has the main axis alignment set to center
 class RowCenter extends StatelessWidget {
   final List<Widget> children;
 

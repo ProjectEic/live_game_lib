@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,12 +15,12 @@ class TextFieldWithSubmit extends StatelessWidget {
   final TextStyle buttonTextStyle;
   final InputDecoration? inputDecoration;
   final MainAxisAlignment? mainAxisAlignment;
-  final TextEditingController controller;
+  TextEditingController controller = TextEditingController();
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatter;
-  final Function onPressed;
+  final Function(String b) onPressed;
 
-  const TextFieldWithSubmit({
+  TextFieldWithSubmit({
     Key? key,
     this.hintText = 'Enter text',
     this.buttonText = 'Submit',
@@ -33,9 +35,11 @@ class TextFieldWithSubmit extends StatelessWidget {
     this.mainAxisAlignment,
     this.keyboardType,
     this.inputFormatter,
-    required this.controller,
+    controller ,
     required this.onPressed,
-  }) : super(key: key);
+  }) : super(key: key) {
+    this.controller = controller ?? this.controller;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +54,7 @@ class TextFieldWithSubmit extends StatelessWidget {
         ),
         SizedBox(height: distanceBetweenInputAndButton),
         ElevatedButton(
-          onPressed: () => onPressed(),
+          onPressed: () => onPressed(controller.text),
           style: ElevatedButton.styleFrom(
             backgroundColor: buttonColor,
             padding: paddingBetweenButtonAndTextField,

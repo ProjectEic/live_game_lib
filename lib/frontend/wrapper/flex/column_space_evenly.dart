@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A Column that has the main axis alignment set to spaceEvenly
 class ColumnSpaceEvenly extends StatelessWidget {
   final List<Widget> children;
 

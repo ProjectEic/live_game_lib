@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A Row that has the main axis alignment set to spaceAround
 class RowSpaceAround extends StatelessWidget {
   final List<Widget> children;
 

@@ -75,9 +75,7 @@ class Room {
   }
 
   /// Whether the current user is the admin
-  bool amAdmin() {
-    return isAdmin(gameManager.username);
-  }
+  bool get amAdmin => adminId == myId;
 
   /// Function to start the game
   Future<bool> startGame() {
@@ -97,6 +95,17 @@ class Room {
   /// Function to add a value to a list in the room
   Future<bool> addToList(String key, dynamic value) {
     return ref!.child(key).push().set(value).then((value) => true);
+  }
+
+  /// Function to remove a value from a list in the room
+  void removeFromList<T>(String key, T value) {
+    // Find the key of the value
+    for (MapEntry<String, dynamic> entry in getMap(key).entries) {
+      if (entry.value == value) {
+        ref!.child(key).child(entry.key).remove();
+        return;
+      }
+    }
   }
 
   dynamic getKey(String key) {
@@ -127,6 +136,7 @@ class Room {
     }
     return List<T>.from(cdata.values.toList());
   }
+
 
   /// Function to get a string from the room
   String? getString(String key) {
