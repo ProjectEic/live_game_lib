@@ -89,7 +89,7 @@ class TextFieldWithSubmit extends StatelessWidget {
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
             ),
-            child: Text(hintText, style: buttonTextStyle),
+            child: Text(buttonText, style: buttonTextStyle),
           ),
         ],
       ),
