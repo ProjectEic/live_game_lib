@@ -42,14 +42,6 @@ Widget generateDefaultLobbyScreen(BuildContext context, Room room) {
                   String player = room.players[index];
                   return ListTile(
                     title: Text(player),
-                    trailing: room.isAdmin(player)
-                        ? IconButton(
-                            onPressed: () {
-                              // Logic to remove a member
-                            },
-                            icon: const Icon(Icons.person_remove),
-                          )
-                        : null,
                   );
                 },
               ),
