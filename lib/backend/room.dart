@@ -130,12 +130,12 @@ class Room {
   }
 
   /// Function to get a list from the room
-  List getList<T>(String key) {
+  List<T> getList<T>(String key) {
     var cdata = getKey(key);
     if (cdata == null) {
       return [];
     }
-    return List<T>.from(cdata.values.toList());
+    return (cdata as List<dynamic>).map((item) => item as T).toList();
   }
 
   /// Function to get a string from the room

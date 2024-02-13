@@ -29,6 +29,9 @@ class ScaffoldMinWidth extends StatelessWidget {
   /// The app bar configuration for the scaffold.
   final AppBar? appBar;
 
+  /// Whether the leading widget should be automatically implied.
+  final bool? automaticallyImplyLeading;
+
   /// Constructs a [ScaffoldMinWidth] widget.
   ///
   /// The [body] parameter is required and represents the main content of the scaffold.
@@ -45,6 +48,7 @@ class ScaffoldMinWidth extends StatelessWidget {
     this.bottomNavigationBar,
     this.floatingActionButton,
     this.appBar,
+    this.automaticallyImplyLeading,
   }) : super(key: key);
 
   @override
@@ -56,7 +60,9 @@ class ScaffoldMinWidth extends StatelessWidget {
         return Scaffold(
           appBar: appBar ??
               AppBar(
-                title: title,
+                automaticallyImplyLeading: automaticallyImplyLeading ?? true,
+                leading: null,
+                title: Center(child: title),
               ),
           body: Container(
             width: screenWidth < minWidth ? minWidth : screenWidth,

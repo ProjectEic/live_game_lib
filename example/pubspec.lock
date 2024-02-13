@@ -206,7 +206,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.0.7"
   matcher:
     dependency: transitive
     description:
@@ -240,7 +240,7 @@ packages:
     source: hosted
     version: "1.8.3"
   playing_cards:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: playing_cards
       sha256: "392d5e42317ec657f6814a282e6bb70942c6599d22dac89cdc741a8b2b095d09"
