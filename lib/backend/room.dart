@@ -24,7 +24,7 @@ class Room {
     }
     // auto set admin
     addDataListener((data) {
-      if (!players.contains(adminId) && players.isNotEmpty) {
+      if (!players.contains(adminId) && players.isNotEmpty && adminId != null) {
         ref!.child("admin").set(players.first);
       }
     });
@@ -217,10 +217,8 @@ class Room {
       });
     }
 
-    if (adminId == "") {
-      if (!players.contains(adminId) && players.isNotEmpty) {
-        ref!.child("admin").set(players.first);
-      }
+    if (!players.contains(adminId) && players.isNotEmpty) {
+      ref!.child("admin").set(players.first);
     }
   }
 
