@@ -108,6 +108,16 @@ class Room {
     }
   }
 
+  dynamic popList(String key) {
+    dynamic cdata = getMap(key);
+    for (MapEntry<String, dynamic> entry in getMap(key).entries) {
+      if (entry.value == cdata) {
+        ref!.child(key).child(entry.key).remove();
+        return cdata;
+      }
+    }
+  }
+
   /// Function to get a value from the room
   dynamic getKey(String key) {
     dynamic cdata = data;
@@ -130,12 +140,12 @@ class Room {
   }
 
   /// Function to get a list from the room
-  List<T> getList<T>(String key) {
+  List getList<T>(String key) {
     var cdata = getKey(key);
     if (cdata == null) {
       return [];
     }
-    return (cdata as List<dynamic>).map((item) => item as T).toList();
+    return List<T>.from(cdata.values.toList());
   }
 
   /// Function to get a string from the room

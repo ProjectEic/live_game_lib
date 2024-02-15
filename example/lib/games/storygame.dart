@@ -15,6 +15,7 @@ Widget storyGame(BuildContext context, Room r) {
   String phase = r.getString("phase") ?? "add_words";
   return ScaffoldMinWidth(
     title: const Text("Story Game"),
+    automaticallyImplyLeading: false,
     body: Padding(
       padding: const EdgeInsets.all(20),
       child: Center(
