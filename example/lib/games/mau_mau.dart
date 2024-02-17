@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/room.dart';
 import 'package:live_game_lib/frontend/playing_cards/playingcard_string.dart';
 import 'package:live_game_lib/frontend/text/sub_heading.dart';
+import 'package:live_game_lib/frontend/wrapper/flex/column_space_around.dart';
 import 'package:live_game_lib/frontend/wrapper/flex/column_space_between.dart';
+import 'package:live_game_lib/frontend/wrapper/flex/row_space_evenly.dart';
 import 'package:live_game_lib/frontend/wrapper/scaffold_min_width.dart';
 import 'package:playing_cards/playing_cards.dart';
 import 'dart:math';
@@ -30,7 +32,7 @@ class _MauMau extends State<MauMau> {
   final int amountOfCards = 7;
   bool initalised = false;
   int selectedIdx = -1;
-  String currentPlayingCard = "clubs:seven";
+  final ScrollController controller = ScrollController();
 
   /// Initializes the game, distributes cards to players, and creates the initial card stack.
   /// It also sets the current player and initializes the game state.
@@ -135,25 +137,136 @@ class _MauMau extends State<MauMau> {
     }
   }
 
-  /// Plays a card from the player's hand. If the card is valid, it removes it from the hand.
+  /// Plays a card from the player's hand, if it is a valid move.
   void playCard(Room room, String cardSuit, String cardValue,
       String currentSuit, String currentValue) {
     print(
-        " cardSuit $cardSuit cardValue $cardValue currentSuit $currentSuit currentValue $currentValue");
+        "cardSuit $cardSuit cardValue $cardValue currentSuit $currentSuit currentValue $currentValue");
     String player = room.gameManager.username;
-    // If the card is valid, remove it from the hand and set it as the current card.
-    if (cardValue == currentValue ||
-        cardSuit == currentSuit ||
-        cardValue == "jack") {
+
+    String? lastCard = room.getString("lastCard");
+    if (lastCard != null) {
+      String lastCardValue = lastCard.split(":")[1];
+      String? canPlay = room.getString("canPlay");
+
+      if (canPlay != null &&
+          cardSuit == canPlay &&
+          lastCardValue == "jack" &&
+          cardValue != "jack") {
+        room.removeFromList("hands/$player", "$cardSuit:$cardValue");
+        room.set("currentCard", "$cardSuit:$cardValue");
+        nextTurn(room, skip: 1, draw: false);
+        return;
+      }
+    }
+
+    if (cardValue == "jack") {
+      // Open a dialog to choose the suit for the jack
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const SubHeading(text: "Choose a suit"),
+            content: SizedBox(
+              height: MediaQuery.of(context).size.height / 4,
+              child: ColumnSpaceAround(
+                children: [
+                  RowSpaceEvenly(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context, "hearts");
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(4.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        child: const Text(
+                          "♥",
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context, "diamonds");
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(4.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        child: const Text(
+                          "♦",
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                  RowSpaceEvenly(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context, "spades");
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(4.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        child: const Text(
+                          "♠",
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context, "clubs");
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(4.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        child: const Text(
+                          "♣",
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ).then((chosenSuit) {
+        if (chosenSuit != null) {
+          room.set("canPlay", chosenSuit);
+          room.set("lastCard", "$cardSuit:$cardValue");
+
+          // Rest of your existing code
+          print({"$cardSuit:$cardValue"});
+          print(room.getList("hands/$player").toString());
+          room.removeFromList("hands/$player", "$cardSuit:$cardValue");
+
+          room.set("currentCard", "$cardSuit:$cardValue");
+
+          nextTurn(room, skip: 1, draw: false);
+          return;
+        }
+      });
+    } else if (cardValue == currentValue || cardSuit == currentSuit) {
+      // Rest of your existing code
       print({"$cardSuit:$cardValue"});
       print(room.getList("hands/$player").toString());
       room.removeFromList("hands/$player", "$cardSuit:$cardValue");
 
       room.set("currentCard", "$cardSuit:$cardValue");
-
-      setState(() {
-        currentPlayingCard = "$cardSuit:$cardValue";
-      });
 
       int skip = 1;
       bool draw = false;
@@ -162,7 +275,10 @@ class _MauMau extends State<MauMau> {
         draw = true;
         skip = 2;
       }
+
+      room.set("lastCard", "$cardSuit:$cardValue");
       nextTurn(room, skip: skip, draw: draw);
+      return;
     }
   }
 
@@ -190,6 +306,8 @@ class _MauMau extends State<MauMau> {
   Widget build(BuildContext context) {
     String player = room.gameManager.username;
     List<dynamic> yourHand = room.getList("hands/$player");
+    String currentPlayingCard = room.getString("currentCard") ?? "clubs:seven";
+
     // Initialize the game if not already initialized.
     print("yourHand ${yourHand.length}");
     if (!initialized) initGame(room);
@@ -216,7 +334,7 @@ class _MauMau extends State<MauMau> {
                 onTap: () {
                   if (currentPlayer != "") return;
                   if (selectedIdx < 0) return;
-                  String c = room.getString("currentCard") ?? "clubs:eight";
+                  String c = room.getString("currentCard") ?? "clubs:seven";
 
                   print("currentCard $c");
                   playCard(
@@ -243,35 +361,42 @@ class _MauMau extends State<MauMau> {
               ),
             ],
           ),
-          Flexible(
+          SizedBox(
+            height: 200,
+            width: double.infinity,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              controller: ScrollController(),
-              shrinkWrap: true,
+              controller: controller,
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: yourHand.length,
               itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedIdx = selectedIdx == index ? -1 : index;
-                    });
-                  },
-                  child: Transform.translate(
-                    offset: Offset(0.0, selectedIdx == index ? -20.0 : 0.0),
-                    child: SizedBox(
-                      width: 150.0,
-                      child: ListTile(
-                        title: PlayingCardString(
-                          suit: yourHand[index].split(":")[0],
-                          value: yourHand[index].split(":")[1],
-                        ),
+                String card = yourHand[index];
+                bool isSelected = selectedIdx == index;
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  width: 150.0,
+                  transform: Matrix4.translationValues(
+                    0.0,
+                    isSelected ? -20.0 : 0.0,
+                    0.0,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedIdx = selectedIdx == index ? -1 : index;
+                      });
+                    },
+                    child: ListTile(
+                      title: PlayingCardString(
+                        suit: card.split(":")[0],
+                        value: card.split(":")[1],
                       ),
                     ),
                   ),
                 );
               },
             ),
-          ),
+          )
         ],
       ),
     );
