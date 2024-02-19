@@ -86,8 +86,8 @@ class _MauMau extends State<MauMau> {
       room.set("currentPlayer", players[0]);
       createStack(room);
     } catch (e) {
+      // ignore: avoid_print
       print("Error during game initialization: $e");
-      // Handle the error, you might want to log it or take appropriate action.
     }
   }
 
