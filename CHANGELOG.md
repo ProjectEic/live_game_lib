@@ -12,3 +12,6 @@
 
 ## 0.0.5
 * Hotfix
+
+## 0.1.0
+* First full version
