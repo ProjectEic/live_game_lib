@@ -40,6 +40,11 @@ class _MauMau extends State<MauMau> {
     try {
       List<String> players = room.players;
 
+      // Check if the first player already has cards (then all have cards)
+      if (room.getList("hands/${players[0]}").isNotEmpty) {
+        initialized = true;
+        return;
+      }
       // Populate the unUsedCards list with a standard deck of playing cards.
       for (Suit s in Suit.values) {
         for (CardValue c in CardValue.values) {
@@ -61,11 +66,6 @@ class _MauMau extends State<MauMau> {
       List<dynamic> unUsedCards = List.from(room.getList("unUsedCards"));
 
       for (String player in players) {
-        if (room.getList("hands/$player").length > 6) {
-          initialized = true;
-          return;
-        }
-
         for (int i = 0; i < amountOfCards; i++) {
           if (unUsedCards.isNotEmpty) {
             int randomNumber = Random().nextInt(unUsedCards.length);
@@ -75,8 +75,8 @@ class _MauMau extends State<MauMau> {
               room.removeFromList("unUsedCards", unUsedCards[randomNumber - 1]);
               unUsedCards.remove(unUsedCards[randomNumber - 1]);
             } catch (e) {
+              // ignore: avoid_print
               print("Error while adding/removing cards: $e");
-              // Handle the error, you might want to log it or take appropriate action.
             }
           }
         }
@@ -120,7 +120,7 @@ class _MauMau extends State<MauMau> {
     room.addToList("unUsedCards", drawnCard);
     room.removeFromList("stack", drawnCard);
 
-    String player = room.gameManager.username;
+    String? player = room.getString("currentPlayer");
     room.addToList("hands/$player", drawnCard);
 
     nextTurn(room);
@@ -146,6 +146,10 @@ class _MauMau extends State<MauMau> {
 
     String? lastCard = room.getString("lastCard");
     if (lastCard != null) {
+      if (room.getString("jackSuit") != "") {
+        room.set("jackSuit", "");
+      }
+
       String lastCardValue = lastCard.split(":")[1];
       String? canPlay = room.getString("canPlay");
 
@@ -155,7 +159,15 @@ class _MauMau extends State<MauMau> {
           cardValue != "jack") {
         room.removeFromList("hands/$player", "$cardSuit:$cardValue");
         room.set("currentCard", "$cardSuit:$cardValue");
-        nextTurn(room, skip: 1, draw: false);
+
+        int skip = 1;
+        bool draw = false;
+        if (cardValue == "eight") skip = 2;
+        if (cardValue == "seven") {
+          draw = true;
+          skip = 2;
+        }
+        nextTurn(room, skip: skip, draw: draw);
         return;
       }
     }
@@ -249,6 +261,8 @@ class _MauMau extends State<MauMau> {
           room.set("canPlay", chosenSuit);
           room.set("lastCard", "$cardSuit:$cardValue");
 
+          room.set("jackSuit", chosenSuit);
+
           // Rest of your existing code
           print({"$cardSuit:$cardValue"});
           print(room.getList("hands/$player").toString());
@@ -256,11 +270,22 @@ class _MauMau extends State<MauMau> {
 
           room.set("currentCard", "$cardSuit:$cardValue");
 
-          nextTurn(room, skip: 1, draw: false);
+          int skip = 1;
+          bool draw = false;
+          if (cardValue == "eight") skip = 2;
+          if (cardValue == "seven") {
+            draw = true;
+            skip = 2;
+          }
+          nextTurn(room, skip: skip, draw: draw);
           return;
         }
       });
     } else if (cardValue == currentValue || cardSuit == currentSuit) {
+      if (room.getString("jackSuit") != "") {
+        room.set("jackSuit", "");
+      }
+
       // Rest of your existing code
       print({"$cardSuit:$cardValue"});
       print(room.getList("hands/$player").toString());
@@ -290,13 +315,12 @@ class _MauMau extends State<MauMau> {
     if (players.contains(currentPlayer)) {
       int currentPlayerIndex = players.indexOf(currentPlayer);
       int nextPlayerIndex = (currentPlayerIndex + skip) % players.length;
-      String nextPlayer = players[nextPlayerIndex];
 
+      room.set("currentPlayer", players[nextPlayerIndex]);
       if (draw) {
         drawCard(room);
         drawCard(room);
       }
-      room.set("currentPlayer", nextPlayer);
     }
   }
 
@@ -310,12 +334,13 @@ class _MauMau extends State<MauMau> {
 
     // Initialize the game if not already initialized.
     print("yourHand ${yourHand.length}");
-    if (!initialized) initGame(room);
+    if (!initialized && room.amAdmin) initGame(room);
+
     String currentPlayer = room.getString("currentPlayer") ?? "Error";
     if (player == currentPlayer) {
       currentPlayer = "";
     }
-
+    String snackBarText = room.getString("jackSuit") ?? "";
     print("currentPlayer $currentPlayer");
     return ScaffoldMinWidth(
       title: const Text("Mau Mau"),
@@ -327,6 +352,9 @@ class _MauMau extends State<MauMau> {
                 ? "Your turn"
                 : "$currentPlayer's turn",
           ),
+          Text(snackBarText.trim().isNotEmpty
+              ? "Joker suit chosen: $snackBarText"
+              : ""),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
