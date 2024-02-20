@@ -107,7 +107,10 @@ class _MauMau extends State<MauMau> {
 
   /// Draws a card from the stack of cards, giving it to the player.
   /// Result updates Unused cards, Stack, and the player's Hand.
-  void drawCard(Room room) {
+  void drawCard(Room room, {String? player = "", nextTurnBool = false}) {
+    print("PLAYERR $player");
+    if (player == "") player = room.getString("currentPlayer");
+
     // If there are no cards to draw from anymore, create a new stack.
     if (List.from(room.getList("stack")).isEmpty) {
       createStack(room);
@@ -120,10 +123,11 @@ class _MauMau extends State<MauMau> {
     room.addToList("unUsedCards", drawnCard);
     room.removeFromList("stack", drawnCard);
 
-    String? player = room.getString("currentPlayer");
+    print("PLAYERR $player");
     room.addToList("hands/$player", drawnCard);
 
-    nextTurn(room);
+    print("NEXTTURN $nextTurnBool");
+    if (nextTurnBool) nextTurn(room, skip: 1);
   }
 
   /// Shuffles the provided list using the Fisher-Yates shuffle algorithm.
@@ -317,9 +321,12 @@ class _MauMau extends State<MauMau> {
       int nextPlayerIndex = (currentPlayerIndex + skip) % players.length;
 
       room.set("currentPlayer", players[nextPlayerIndex]);
+      print(players);
       if (draw) {
-        drawCard(room);
-        drawCard(room);
+        // draws a card to the next player
+        drawCard(room, player: players[nextPlayerIndex + 1]);
+        drawCard(room,
+            player: players[nextPlayerIndex + 1], nextTurnBool: true);
       }
     }
   }
@@ -341,7 +348,6 @@ class _MauMau extends State<MauMau> {
       currentPlayer = "";
     }
     String snackBarText = room.getString("jackSuit") ?? "";
-    print("currentPlayer $currentPlayer");
     return ScaffoldMinWidth(
       title: const Text("Mau Mau"),
       automaticallyImplyLeading: false,
@@ -379,7 +385,7 @@ class _MauMau extends State<MauMau> {
               GestureDetector(
                 onTap: () {
                   if (currentPlayer != "") return;
-                  drawCard(room);
+                  drawCard(room, nextTurnBool: true);
                 },
                 child: const PlayingCardString(
                   suit: "clubs", // values don't matter: only the back is shown
