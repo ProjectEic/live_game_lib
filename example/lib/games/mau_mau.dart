@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:live_game_lib/backend/room.dart';
 import 'package:live_game_lib/frontend/playing_cards/playingcard_string.dart';
+import 'package:live_game_lib/frontend/text/headline.dart';
 import 'package:live_game_lib/frontend/text/sub_heading.dart';
+import 'package:live_game_lib/frontend/text/text_button.dart';
 import 'package:live_game_lib/frontend/wrapper/flex/column_space_around.dart';
 import 'package:live_game_lib/frontend/wrapper/flex/column_space_between.dart';
 import 'package:live_game_lib/frontend/wrapper/flex/row_space_evenly.dart';
@@ -12,10 +14,6 @@ import 'dart:math';
 Widget mauMau(BuildContext context, Room room) {
   return MauMau(room: room);
 }
-
-/// Number of cards each player receives at the beginning of the game.
-const int amountOfCards = 7;
-bool initialized = false;
 
 class MauMau extends StatefulWidget {
   final Room room;
@@ -30,7 +28,7 @@ class MauMau extends StatefulWidget {
 class _MauMau extends State<MauMau> {
   late Room room = widget.room;
   final int amountOfCards = 7;
-  bool initalised = false;
+  bool initialized = false;
   int selectedIdx = -1;
   final ScrollController controller = ScrollController();
 
@@ -107,7 +105,7 @@ class _MauMau extends State<MauMau> {
 
   /// Draws a card from the stack of cards, giving it to the player.
   /// Result updates Unused cards, Stack, and the player's Hand.
-  void drawCard(Room room, {String? player = "", nextTurnBool = false}) {
+  void drawCard(Room room, {String? player = ""}) {
     print("PLAYERR $player");
     if (player == "") player = room.getString("currentPlayer");
 
@@ -125,9 +123,6 @@ class _MauMau extends State<MauMau> {
 
     print("PLAYERR $player");
     room.addToList("hands/$player", drawnCard);
-
-    print("NEXTTURN $nextTurnBool");
-    if (nextTurnBool) nextTurn(room, skip: 1);
   }
 
   /// Shuffles the provided list using the Fisher-Yates shuffle algorithm.
@@ -167,10 +162,8 @@ class _MauMau extends State<MauMau> {
         int skip = 1;
         bool draw = false;
         if (cardValue == "eight") skip = 2;
-        if (cardValue == "seven") {
-          draw = true;
-          skip = 2;
-        }
+        if (cardValue == "seven") draw = true;
+        print(skip);
         nextTurn(room, skip: skip, draw: draw);
         return;
       }
@@ -277,10 +270,8 @@ class _MauMau extends State<MauMau> {
           int skip = 1;
           bool draw = false;
           if (cardValue == "eight") skip = 2;
-          if (cardValue == "seven") {
-            draw = true;
-            skip = 2;
-          }
+          if (cardValue == "seven") draw = true;
+          print(skip);
           nextTurn(room, skip: skip, draw: draw);
           return;
         }
@@ -300,11 +291,8 @@ class _MauMau extends State<MauMau> {
       int skip = 1;
       bool draw = false;
       if (cardValue == "eight") skip = 2;
-      if (cardValue == "seven") {
-        draw = true;
-        skip = 2;
-      }
-
+      if (cardValue == "seven") draw = true;
+      print(skip);
       room.set("lastCard", "$cardSuit:$cardValue");
       nextTurn(room, skip: skip, draw: draw);
       return;
@@ -324,9 +312,22 @@ class _MauMau extends State<MauMau> {
       print(players);
       if (draw) {
         // draws a card to the next player
-        drawCard(room, player: players[nextPlayerIndex + 1]);
-        drawCard(room,
-            player: players[nextPlayerIndex + 1], nextTurnBool: true);
+        print("nextPlayer $nextPlayerIndex");
+        print(players[nextPlayerIndex]);
+
+        print("currentPlayer $currentPlayerIndex");
+        print(players[currentPlayerIndex]);
+        drawCard(room, player: players[nextPlayerIndex]);
+        drawCard(room, player: players[nextPlayerIndex]);
+      }
+
+      for (var player in players) {
+        print(room.getList("hands/$player"));
+        if (room.getList("hands/$player").isEmpty) {
+          room.set("winner", player);
+          print(room.getString("winner"));
+          return;
+        }
       }
     }
   }
@@ -335,104 +336,20 @@ class _MauMau extends State<MauMau> {
   /// Displays the current player's hand, the top card on the stack, and other relevant information.
   @override
   Widget build(BuildContext context) {
-    String player = room.gameManager.username;
-    List<dynamic> yourHand = room.getList("hands/$player");
-    String currentPlayingCard = room.getString("currentCard") ?? "clubs:seven";
+    String hasWon = room.getString("winner") ?? "";
 
     // Initialize the game if not already initialized.
-    print("yourHand ${yourHand.length}");
     if (!initialized && room.amAdmin) initGame(room);
 
-    String currentPlayer = room.getString("currentPlayer") ?? "Error";
-    if (player == currentPlayer) {
-      currentPlayer = "";
-    }
-    String snackBarText = room.getString("jackSuit") ?? "";
+    print("hasWON: $hasWon");
     return ScaffoldMinWidth(
       title: const Text("Mau Mau"),
       automaticallyImplyLeading: false,
-      body: ColumnSpaceBetween(
-        children: [
-          SubHeading(
-            text: currentPlayer.trim() == ""
-                ? "Your turn"
-                : "$currentPlayer's turn",
-          ),
-          Text(snackBarText.trim().isNotEmpty
-              ? "Joker suit chosen: $snackBarText"
-              : ""),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  if (currentPlayer != "") return;
-                  if (selectedIdx < 0) return;
-                  String c = room.getString("currentCard") ?? "clubs:seven";
-
-                  print("currentCard $c");
-                  playCard(
-                    room,
-                    yourHand[selectedIdx].split(":")[0],
-                    yourHand[selectedIdx].split(":")[1],
-                    c.split(":")[0],
-                    c.split(":")[1],
-                  );
-                },
-                child: showCurrentPlayingCard(currentPlayingCard.split(":")[0],
-                    currentPlayingCard.split(":")[1]),
-              ),
-              GestureDetector(
-                onTap: () {
-                  if (currentPlayer != "") return;
-                  drawCard(room, nextTurnBool: true);
-                },
-                child: const PlayingCardString(
-                  suit: "clubs", // values don't matter: only the back is shown
-                  value: "2", // => save loading time
-                  showBack: true,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 200,
-            width: double.infinity,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              controller: controller,
-              physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: yourHand.length,
-              itemBuilder: (BuildContext context, int index) {
-                String card = yourHand[index];
-                bool isSelected = selectedIdx == index;
-                return AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  width: 150.0,
-                  transform: Matrix4.translationValues(
-                    0.0,
-                    isSelected ? -20.0 : 0.0,
-                    0.0,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedIdx = selectedIdx == index ? -1 : index;
-                      });
-                    },
-                    child: ListTile(
-                      title: PlayingCardString(
-                        suit: card.split(":")[0],
-                        value: card.split(":")[1],
-                      ),
-                    ),
-                  ),
-                );
-              },
+      body: hasWon != ""
+          ? gameOverMauMau(context, hasWon)
+          : gameViewMaumMau(
+              context,
             ),
-          )
-        ],
-      ),
     );
   }
 
@@ -441,6 +358,124 @@ class _MauMau extends State<MauMau> {
     return PlayingCardString(
       suit: suit,
       value: value,
+    );
+  }
+
+  /// Builds and returns a widget representing the Game Over screen of MauMau
+  Widget gameOverMauMau(BuildContext context, String player) {
+    return Center(
+      child: ColumnSpaceAround(children: [
+        Headline(
+          text: "$player has won the Game!",
+        ),
+        TextButtonWidget(
+          text: 'Quit',
+          onPressed: () => room.goBackToLobby(),
+        ),
+      ]),
+    );
+  }
+
+  Widget gameViewMaumMau(BuildContext context) {
+    String player = room.gameManager.username;
+    List<dynamic> yourHand = room.getList("hands/$player");
+    print("yourHand ${yourHand.length}");
+    String currentPlayingCard = room.getString("currentCard") ?? "clubs:seven";
+    String snackBarText = room.getString("jackSuit") ?? "";
+
+    String currentPlayer = room.getString("currentPlayer") ?? "Error";
+    if (player == currentPlayer) {
+      currentPlayer = "";
+    }
+
+    return ColumnSpaceBetween(
+      children: [
+        SubHeading(
+          text: currentPlayer.trim() == ""
+              ? "Your turn"
+              : "$currentPlayer's turn",
+        ),
+        Text(snackBarText.trim().isNotEmpty
+            ? "Joker suit chosen: $snackBarText"
+            : ""),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () {
+                if (currentPlayer != "") return;
+                if (selectedIdx < 0) return;
+                String c = room.getString("currentCard") ?? "clubs:seven";
+
+                print("currentCard $c");
+                playCard(
+                  room,
+                  yourHand[selectedIdx].split(":")[0],
+                  yourHand[selectedIdx].split(":")[1],
+                  c.split(":")[0],
+                  c.split(":")[1],
+                );
+                setState(() {
+                  selectedIdx = -1;
+                });
+              },
+              child: showCurrentPlayingCard(currentPlayingCard.split(":")[0],
+                  currentPlayingCard.split(":")[1]),
+            ),
+            GestureDetector(
+              onTap: () {
+                if (currentPlayer != "") return;
+                drawCard(room);
+                nextTurn(room);
+                setState(() {
+                  selectedIdx = -1;
+                });
+              },
+              child: const PlayingCardString(
+                suit: "clubs", // values don't matter: only the back is shown
+                value: "2", // => save loading time
+                showBack: true,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 200,
+          width: double.maxFinite,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            controller: controller,
+            physics: const AlwaysScrollableScrollPhysics(),
+            itemCount: yourHand.length,
+            itemBuilder: (BuildContext context, int index) {
+              String card = yourHand[index];
+              bool isSelected = selectedIdx == index;
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: 150.0,
+                transform: Matrix4.translationValues(
+                  0.0,
+                  isSelected ? -20.0 : 0.0,
+                  0.0,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedIdx = selectedIdx == index ? -1 : index;
+                    });
+                  },
+                  child: ListTile(
+                    title: PlayingCardString(
+                      suit: card.split(":")[0],
+                      value: card.split(":")[1],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

@@ -108,16 +108,6 @@ class Room {
     }
   }
 
-  dynamic popList(String key) {
-    dynamic cdata = getMap(key);
-    for (MapEntry<String, dynamic> entry in getMap(key).entries) {
-      if (entry.value == cdata) {
-        ref!.child(key).child(entry.key).remove();
-        return cdata;
-      }
-    }
-  }
-
   /// Function to get a value from the room
   dynamic getKey(String key) {
     dynamic cdata = data;
