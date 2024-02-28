@@ -49,10 +49,18 @@ class Room {
   }
 
   /// A list of players in the room
-  List<String> get players =>
-      ((data["players"] ?? <String, dynamic>{}) as Map<String, dynamic>)
+  List<String> get players => getPlayers();
+
+
+  List<String> getPlayers() {
+    try {
+      return ((data["players"] ?? <String, dynamic>{}) as Map<String, dynamic>)
           .keys
           .toList();
+    } catch (e) {
+      return List<String>.generate(((data["players"] as List<dynamic>).length /2).ceil() , (index) => (index+1).toString());
+    }
+  }  
 
   /// The name of the current game
   String get gameName => (data["gameName"] ?? "") as String;
@@ -200,17 +208,17 @@ class Room {
         inLobby ||
         players.length <
             (gameManager.getGame(n).maxPlayers ?? (players.length + 1))) {
-      myDataRef = ref!.child("players").child(myName);
+      myDataRef = ref!.child("players").child(myName.toString());
       myDataRef.set(true);
       myDataRef.onDisconnect().remove();
     } else {
-      myDataRef = ref!.child("waitingPlayers").child(myName);
+      myDataRef = ref!.child("waitingPlayers").child(myName.toString());
       myDataRef.set(true);
       myDataRef.onDisconnect().remove();
       ref!.child("inLobby").onValue.listen((event) {
         if (event.snapshot.value == true) {
           myDataRef.remove();
-          myDataRef = ref!.child("players").child(myName);
+          myDataRef = ref!.child("players").child(myName.toString());
           myDataRef.set(true);
           myDataRef.onDisconnect().remove();
         }
