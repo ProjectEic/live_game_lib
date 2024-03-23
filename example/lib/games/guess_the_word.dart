@@ -26,19 +26,21 @@ Widget guessTheWordScreen(BuildContext context, Room r) {
               ? getAdminView(context, r, currentQuestion)
               : getNonAdminView(context, r, currentQuestion),
           const SubHeading(text: "Answered questions:"),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: answeredQuestions.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(answeredQuestions[index]),
-                subtitle: Text(
-                    "Answer: ${(answers[answeredQuestions[index]]!) ? "Yes" : "No"}"),
-                trailing: answers[answeredQuestions[index]] ?? false
-                    ? const Icon(Icons.check)
-                    : const Icon(Icons.close),
-              );
-            },
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: answeredQuestions.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(answeredQuestions[index]),
+                  subtitle: Text(
+                      "Answer: ${(answers[answeredQuestions[index]]!) ? "Yes" : "No"}"),
+                  trailing: answers[answeredQuestions[index]] ?? false
+                      ? const Icon(Icons.check)
+                      : const Icon(Icons.close),
+                );
+              },
+            ),
           ),
           const Padding(
             padding: EdgeInsets.all(10),
