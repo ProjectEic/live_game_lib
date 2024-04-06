@@ -15,3 +15,9 @@
 
 ## 0.1.0
 * First full version
+
+## 0.2.0
+* Bug Fixes
+
+## 0.2.1
+* Removed unused dependency

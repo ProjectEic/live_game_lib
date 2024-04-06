@@ -51,16 +51,17 @@ class Room {
   /// A list of players in the room
   List<String> get players => getPlayers();
 
-
   List<String> getPlayers() {
     try {
       return ((data["players"] ?? <String, dynamic>{}) as Map<String, dynamic>)
           .keys
           .toList();
     } catch (e) {
-      return List<String>.generate(((data["players"] as List<dynamic>).length /2).ceil() , (index) => (index+1).toString());
+      return List<String>.generate(
+          ((data["players"] as List<dynamic>).length / 2).ceil(),
+          (index) => (index + 1).toString());
     }
-  }  
+  }
 
   /// The name of the current game
   String get gameName => (data["gameName"] ?? "") as String;
