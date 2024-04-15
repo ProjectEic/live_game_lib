@@ -21,3 +21,6 @@
 
 ## 0.2.1
 * Removed unused dependency
+
+## 0.2.2
+* Bug Fix
