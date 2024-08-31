@@ -98,11 +98,11 @@ class _TextButtonWidgetState extends State<TextButtonWidget> {
               widget.onPressed();
             },
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
+              backgroundColor: WidgetStateProperty.all(
                   widget.backgroundColor ?? Colors.transparent),
-              foregroundColor: MaterialStateProperty.all(
+              foregroundColor: WidgetStateProperty.all(
                   widget.foregroundColor ?? Colors.transparent),
-              shape: MaterialStateProperty.all(
+              shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(widget.borderRadius ?? 25),
@@ -117,7 +117,9 @@ class _TextButtonWidgetState extends State<TextButtonWidget> {
               child: Text(
                 widget.text,
                 style: widget.textStyle ??
-                    const TextStyle(color: Colors.black, fontSize: 16),
+                    TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 16),
               ),
             ),
           ),

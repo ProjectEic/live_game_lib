@@ -86,7 +86,7 @@ class Headline extends StatelessWidget {
           TextStyle(
             fontSize: fontSize ?? 24.0,
             fontWeight: fontWeight ?? FontWeight.bold,
-            color: color ?? Colors.black,
+            color: color ?? Theme.of(context).colorScheme.primary,
             fontFamily: fontFamily,
             background: background,
             decoration: decoration,

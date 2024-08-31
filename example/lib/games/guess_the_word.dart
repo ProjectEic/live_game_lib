@@ -89,16 +89,16 @@ Widget getAdminView(BuildContext b, Room r, String currentQuestion) {
   return ButtonList(
     buttons: buttons,
     buttonStyle: ButtonStyle(
-      textStyle: MaterialStateProperty.all(
+      textStyle: WidgetStateProperty.all(
         TextStyle(fontSize: 20, color: Theme.of(b).colorScheme.onPrimary),
       ),
-      shape: MaterialStateProperty.all(
+      shape: WidgetStateProperty.all(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
           side: BorderSide(color: Theme.of(b).colorScheme.primary),
         ),
       ),
-      backgroundColor: MaterialStateProperty.all(
+      backgroundColor: WidgetStateProperty.all(
         Theme.of(b).colorScheme.primaryContainer,
       ),
     ),
