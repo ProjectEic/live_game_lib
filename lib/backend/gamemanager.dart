@@ -77,9 +77,9 @@ class GameManager {
   }
 
   /// Function to create a room
-  Future<Room> createRoom(String adminId, String gameName) async {
+  Future<Room> createRoom(String gameName) async {
     DatabaseReference ref = _roomsRef!.child(generateRandomRoomId());
     await ref.set(_gameMap[gameName]!.prefabData);
-    return Room(ref.key!, this, lref: ref, adminId: adminId);
+    return Room(ref.key!, this, lref: ref);
   }
 }
