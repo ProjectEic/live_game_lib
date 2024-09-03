@@ -16,15 +16,15 @@ class Room {
 
   late DatabaseReference myDataRef;
 
-  Room(this._id, this.gameManager, {DatabaseReference? lref}) {
+  Room(this._id, this.gameManager, {DatabaseReference? lref, String? adminId}) {
     if (lref == null) {
       ref = gameManager.roomRef!.child(_id);
     } else {
       ref = lref;
     }
     // auto set admin
-    addDataListener((newData) {
-      if ((!players.contains(adminId) || adminId=="") && players.isNotEmpty) {
+    addDataListener((data) {
+      if (!players.contains(adminId) && players.isNotEmpty && adminId != null) {
         ref!.child("admin").set(players.first);
       }
     });
@@ -198,7 +198,7 @@ class Room {
   }
 
   /// Function to join the room
-  Future join(String myName) async {
+  void join(String myName) async {
     String? n = ((await ref!.child("gameName").get()).value as String?);
     if (n == null) {
       return;
@@ -226,7 +226,7 @@ class Room {
       });
     }
 
-    if ((!players.contains(adminId) || adminId=="") && players.isNotEmpty) {
+    if (!players.contains(adminId) && players.isNotEmpty) {
       ref!.child("admin").set(players.first);
     }
   }

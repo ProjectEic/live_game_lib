@@ -95,7 +95,8 @@ class DefaultHome extends StatelessWidget {
                           TextButton(
                             onPressed: () async {
                               Navigator.of(context).pop();
-                              Room r = await gameManager.createRoom(key);
+                              Room r = await gameManager.createRoom(
+                                  usernameController.text, key);
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => r.getGameView()));
                             },
