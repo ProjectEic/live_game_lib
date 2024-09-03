@@ -23,3 +23,11 @@
 * Removed unused dependency
 
 ## 0.3.0
+bug fix
+
+## 0.3.1
+bug fix
+
+
+## 0.3.2
+bug fix

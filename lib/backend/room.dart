@@ -22,28 +22,42 @@ class Room {
     } else {
       ref = lref;
     }
-    // auto set admin
-    addDataListener((newData) {
-      if ((!players.contains(adminId) || adminId=="") && players.isNotEmpty) {
-        ref!.child("admin").set(players.first);
-      }
-    });
+   
+    _dbListen();
+
 
     addDataListener((d) {
       data = d;
     });
+
+    addDataListener((newData) async {
+      if ((!players.contains(adminId) || adminId=="") && players.isNotEmpty && players.first == gameManager.username) {
+        // wait 0.5 seconds
+        await Future.delayed(const Duration(milliseconds: 500));
+        ref!.child("admin").set(players.first);
+      }
+    });
+   
   }
 
+  /// returns the view of the game
   Widget getGameView() {
     return GameView(this, gameManager);
   }
 
+
+  List<void Function(Map<String, dynamic> data)?> listeners = [];
+
+  /// Function to add a listener to the room
   void addDataListener(void Function(Map<String, dynamic> data)? onValue) {
+    listeners.add(onValue);
+    
+  }
+  
+  void _dbListen() {
     ref?.onValue.listen((event) {
-      data =
-          (event.snapshot.value ?? <String, dynamic>{}) as Map<String, dynamic>;
-      if (onValue != null) {
-        onValue(data);
+      for (void Function(Map<String, dynamic> data)? listener in listeners) {
+        listener!(Map<String, dynamic>.from((event.snapshot.value ?? <String, dynamic>{}) as Map));
       }
     });
   }
@@ -53,7 +67,7 @@ class Room {
 
   List<String> getPlayers() {
     try {
-      return ((data["players"] ?? <String, dynamic>{}) as Map<String, dynamic>)
+      return Map<String, dynamic>.from((data["players"] ?? <String, dynamic>{}) as Map)
           .keys
           .toList();
     } catch (e) {
