@@ -22,22 +22,22 @@ class Room {
     } else {
       ref = lref;
     }
-   
-    _dbListen();
 
+    _dbListen();
 
     addDataListener((d) {
       data = d;
     });
 
     addDataListener((newData) async {
-      if ((!players.contains(adminId) || adminId=="") && players.isNotEmpty && players.first == gameManager.username) {
+      if ((!players.contains(adminId) || adminId == "") &&
+          players.isNotEmpty &&
+          players.first == gameManager.username) {
         // wait 0.5 seconds
         await Future.delayed(const Duration(milliseconds: 500));
         ref!.child("admin").set(players.first);
       }
     });
-   
   }
 
   /// returns the view of the game
@@ -45,19 +45,18 @@ class Room {
     return GameView(this, gameManager);
   }
 
-
   List<void Function(Map<String, dynamic> data)?> listeners = [];
 
   /// Function to add a listener to the room
   void addDataListener(void Function(Map<String, dynamic> data)? onValue) {
     listeners.add(onValue);
-    
   }
-  
+
   void _dbListen() {
     ref?.onValue.listen((event) {
       for (void Function(Map<String, dynamic> data)? listener in listeners) {
-        listener!(Map<String, dynamic>.from((event.snapshot.value ?? <String, dynamic>{}) as Map));
+        listener!(Map<String, dynamic>.from(
+            (event.snapshot.value ?? <String, dynamic>{}) as Map));
       }
     });
   }
@@ -67,7 +66,8 @@ class Room {
 
   List<String> getPlayers() {
     try {
-      return Map<String, dynamic>.from((data["players"] ?? <String, dynamic>{}) as Map)
+      return Map<String, dynamic>.from(
+              (data["players"] ?? <String, dynamic>{}) as Map)
           .keys
           .toList();
     } catch (e) {
@@ -240,7 +240,7 @@ class Room {
       });
     }
 
-    if ((!players.contains(adminId) || adminId=="") && players.isNotEmpty) {
+    if ((!players.contains(adminId) || adminId == "") && players.isNotEmpty) {
       ref!.child("admin").set(players.first);
     }
   }
