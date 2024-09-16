@@ -23,7 +23,7 @@ class Room {
       ref = lref;
     }
 
-    _dbListen();
+    dbListen();
 
     addDataListener((d) {
       data = d;
@@ -52,7 +52,7 @@ class Room {
     listeners.add(onValue);
   }
 
-  void _dbListen() {
+  void dbListen() {
     ref?.onValue.listen((event) {
       for (void Function(Map<String, dynamic> data)? listener in listeners) {
         listener!(Map<String, dynamic>.from(
