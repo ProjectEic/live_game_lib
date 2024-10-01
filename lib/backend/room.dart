@@ -149,7 +149,7 @@ class Room {
     if (cdata == null) {
       return {};
     }
-    return Map<String, T>.from(cdata as Map<String, dynamic>);
+    return Map<String, T>.from(cdata as Map);
   }
 
   /// Function to get a list from the room
