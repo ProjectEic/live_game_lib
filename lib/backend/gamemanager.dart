@@ -19,7 +19,7 @@ class GameManager {
 
   String databaseRefStr = "roooms";
 
-  Widget roomNotFoundWidget;
+  late Widget roomNotFoundWidget;
 
   Widget? homeScreen;
 
@@ -33,14 +33,15 @@ class GameManager {
     String? databaseRefInp,
     Widget? homeScreen,
     Widget? joinRoomScreen,
+    Widget? roomNotFoundWidget,
     this.lobbyScreenGenerator = generateDefaultLobbyScreen,
-    this.roomNotFoundWidget = const GameNotFound(),
   }) {
     databaseRefStr = databaseRefInp ?? databaseRefStr;
     _roomsRef = FirebaseDatabase.instance.ref(databaseRefStr);
     _gameMap = games;
     this.homeScreen = homeScreen ?? DefaultHome(this);
     this.joinRoomScreen = joinRoomScreen ?? DefaultJoinRoomScreen(this);
+    this.roomNotFoundWidget = roomNotFoundWidget ?? const GameNotFound();
   }
 
   String addGame(String name, Game gameManagerGetter) {
