@@ -50,8 +50,8 @@ Widget generateDefaultLobbyScreen(BuildContext context, Room room) {
                   Text(
                     room.id,
                     style: const TextStyle(
-                        fontSize: 18, 
-                        fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(width: 10),

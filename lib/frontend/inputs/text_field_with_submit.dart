@@ -8,6 +8,9 @@ class TextFieldWithSubmit extends StatelessWidget {
   /// The hint text for the input field.
   final String hintText;
 
+  /// The text style of the hint text.
+  final TextStyle hintTextStyle;
+
   /// The text displayed on the submit button.
   final String buttonText;
 
@@ -37,16 +40,23 @@ class TextFieldWithSubmit extends StatelessWidget {
 
   /// The main axis alignment of the widget.
   final MainAxisAlignment? mainAxisAlignment;
+
+  /// The controller for the input field.
   TextEditingController controller = TextEditingController();
+
+  /// The type of keyboard to use for the input field.
   final TextInputType? keyboardType;
 
   /// The input formatters for the input field.
   final List<TextInputFormatter>? inputFormatter;
+
+  /// The function to call when the submit button is pressed.
   final Function(String b) onPressed;
 
   TextFieldWithSubmit({
     Key? key,
     this.hintText = 'Enter text',
+    this.hintTextStyle = const TextStyle(fontSize: 16.0),
     this.buttonText = 'Submit',
     this.buttonColor = Colors.black,
     this.buttonElevation = 4.0,
@@ -75,7 +85,11 @@ class TextFieldWithSubmit extends StatelessWidget {
         children: [
           TextField(
             controller: controller,
-            decoration: inputDecoration ?? InputDecoration(hintText: hintText),
+            decoration: inputDecoration ??
+                InputDecoration(
+                  hintText: hintText,
+                  hintStyle: hintTextStyle,
+                ),
             keyboardType: keyboardType,
             inputFormatters: inputFormatter,
           ),
