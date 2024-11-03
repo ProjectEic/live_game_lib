@@ -9,6 +9,9 @@ class ButtonList extends StatelessWidget {
   /// The style applied to each button in the list.
   final ButtonStyle buttonStyle;
 
+  /// The direction of the buttons within the column.
+  final Axis? direction;
+
   /// The alignment of the buttons within the column.
   ///
   /// Defaults to [MainAxisAlignment.spaceBetween].
@@ -27,17 +30,21 @@ class ButtonList extends StatelessWidget {
   /// with a default value of [MainAxisAlignment.spaceBetween].
   /// The [padding] parameter specifies the padding applied to each button in the list,
   /// with a default value of [EdgeInsets.all(8.0)].
+  /// The [direction] parameter determines the direction of the buttons within the column.
+  /// which defaults to [Axis.vertical].
   const ButtonList({
     Key? key,
     this.mainAxisAlignment,
     this.padding,
+    this.direction,
     required this.buttons,
     required this.buttonStyle,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Flex(
+      direction: direction ?? Axis.vertical,
       mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.spaceBetween,
       children: buttons.map((button) {
         return Padding(

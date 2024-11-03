@@ -39,3 +39,6 @@ bug fix
 
 ## 0.3.7
 * add Countdown Element
+
+## 0.3.8
+bug fix
