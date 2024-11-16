@@ -42,3 +42,6 @@ bug fix
 
 ## 0.3.8
 bug fix
+
+## 0.3.9
+bug fix
