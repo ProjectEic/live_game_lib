@@ -41,6 +41,9 @@ class TextFieldWithSubmit extends StatelessWidget {
   /// The main axis alignment of the widget.
   final MainAxisAlignment? mainAxisAlignment;
 
+  /// The direction of the widget (vertical or horizontal).
+  final Axis? direction;
+
   /// The controller for the input field.
   TextEditingController controller = TextEditingController();
 
@@ -66,6 +69,7 @@ class TextFieldWithSubmit extends StatelessWidget {
         const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
     this.borderRadius = 8.0,
     this.buttonTextStyle = const TextStyle(fontSize: 16.0, color: Colors.white),
+    this.direction,
     this.mainAxisAlignment,
     this.keyboardType,
     this.inputFormatter,
@@ -80,8 +84,9 @@ class TextFieldWithSubmit extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
-      child: Column(
+      child: Flex(
         mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.spaceEvenly,
+        direction: direction ?? Axis.vertical,
         children: [
           TextField(
             controller: controller,
@@ -93,7 +98,14 @@ class TextFieldWithSubmit extends StatelessWidget {
             keyboardType: keyboardType,
             inputFormatters: inputFormatter,
           ),
-          SizedBox(height: distanceBetweenInputAndButton),
+          SizedBox(
+            height: (direction == Axis.vertical)
+                ? distanceBetweenInputAndButton
+                : null,
+            width: (direction == Axis.horizontal)
+                ? distanceBetweenInputAndButton
+                : null,
+          ),
           ElevatedButton(
             onPressed: () => onPressed(controller.text),
             style: ElevatedButton.styleFrom(
