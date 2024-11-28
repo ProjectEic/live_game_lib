@@ -1,6 +1,6 @@
 name: live_game_lib
 description: "A Game Libary for creating live multiplayergames with flutter and firebase very fast and easy."
-version: 0.3.9
+version: 0.3.10
 
 repository: "https://github.com/ProjectEic/live_game_lib"
 

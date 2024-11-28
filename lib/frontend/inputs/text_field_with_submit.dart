@@ -88,15 +88,17 @@ class TextFieldWithSubmit extends StatelessWidget {
         mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.spaceEvenly,
         direction: direction ?? Axis.vertical,
         children: [
-          TextField(
-            controller: controller,
-            decoration: inputDecoration ??
-                InputDecoration(
-                  hintText: hintText,
-                  hintStyle: hintTextStyle,
-                ),
-            keyboardType: keyboardType,
-            inputFormatters: inputFormatter,
+          Expanded(
+            child: TextField(
+              controller: controller,
+              decoration: inputDecoration ??
+                  InputDecoration(
+                    hintText: hintText,
+                    hintStyle: hintTextStyle,
+                  ),
+              keyboardType: keyboardType,
+              inputFormatters: inputFormatter,
+            ),
           ),
           SizedBox(
             height: (direction == Axis.vertical)
