@@ -98,6 +98,7 @@ class TextFieldWithSubmit extends StatelessWidget {
                   ),
               keyboardType: keyboardType,
               inputFormatters: inputFormatter,
+              onSubmitted: (value) => onPressed(value),
             ),
           ),
           SizedBox(

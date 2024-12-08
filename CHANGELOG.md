@@ -48,3 +48,6 @@ bug fix
 
 ## 0.3.10
 bug fix
+
+## 0.3.11
+update inputs 
