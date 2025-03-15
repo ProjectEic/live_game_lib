@@ -18,7 +18,7 @@ Widget mauMau(BuildContext context, Room room) {
 class MauMau extends StatefulWidget {
   final Room room;
 
-  const MauMau({Key? key, required this.room}) : super(key: key);
+  const MauMau({super.key, required this.room});
 
   @override
   // ignore: library_private_types_in_public_api
