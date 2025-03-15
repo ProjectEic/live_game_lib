@@ -51,3 +51,6 @@ bug fix
 
 ## 0.3.11
 update inputs 
+
+## 0.3.12
+remove deprecated code and update packages 
