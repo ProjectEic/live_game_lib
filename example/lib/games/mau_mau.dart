@@ -303,7 +303,7 @@ class _MauMau extends State<MauMau> {
   void nextTurn(Room room, {int skip = 1, bool draw = false}) {
     List<String> players = room.players;
     String currentPlayer = room.getString("currentPlayer") as String;
-    if (room.getList("hands/" + currentPlayer).length <= 1) {
+    if (room.getList("hands/$currentPlayer").length <= 1) {
       room.set("winner", currentPlayer);
       return;
     }
