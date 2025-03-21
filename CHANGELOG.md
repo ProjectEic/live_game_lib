@@ -54,3 +54,6 @@ update inputs
 
 ## 0.3.12
 remove deprecated code and update packages 
+
+## 0.3.13 
+adding focus node to textFieldWithSubmit

@@ -53,6 +53,9 @@ class TextFieldWithSubmit extends StatelessWidget {
   /// The input formatters for the input field.
   final List<TextInputFormatter>? inputFormatter;
 
+  /// The focus node for the input field.
+  final FocusNode? focusNode;
+
   /// The function to call when the submit button is pressed.
   final Function(String b) onPressed;
 
@@ -73,6 +76,7 @@ class TextFieldWithSubmit extends StatelessWidget {
     this.mainAxisAlignment,
     this.keyboardType,
     this.inputFormatter,
+    this.focusNode,
     controller,
     required this.onPressed,
     required this.padding,
@@ -97,6 +101,7 @@ class TextFieldWithSubmit extends StatelessWidget {
                     hintStyle: hintTextStyle,
                   ),
               keyboardType: keyboardType,
+              focusNode: focusNode,
               inputFormatters: inputFormatter,
               onSubmitted: (value) => onPressed(value),
             ),
