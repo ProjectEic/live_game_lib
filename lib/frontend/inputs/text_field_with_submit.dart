@@ -56,6 +56,12 @@ class TextFieldWithSubmit extends StatelessWidget {
   /// The focus node for the input field.
   final FocusNode? focusNode;
 
+  /// The prefix icon for the input field.
+  final Widget? prefixIcon;
+
+  /// The suffix icon for the input field.
+  final Widget? suffixIcon;
+
   /// The function to call when the submit button is pressed.
   final Function(String b) onPressed;
 
@@ -77,6 +83,8 @@ class TextFieldWithSubmit extends StatelessWidget {
     this.keyboardType,
     this.inputFormatter,
     this.focusNode,
+    this.prefixIcon,
+    this.suffixIcon,
     controller,
     required this.onPressed,
     required this.padding,
@@ -99,6 +107,8 @@ class TextFieldWithSubmit extends StatelessWidget {
                   InputDecoration(
                     hintText: hintText,
                     hintStyle: hintTextStyle,
+                    prefixIcon: prefixIcon,
+                    suffixIcon: suffixIcon,
                   ),
               keyboardType: keyboardType,
               focusNode: focusNode,

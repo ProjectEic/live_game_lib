@@ -57,3 +57,6 @@ remove deprecated code and update packages
 
 ## 0.3.13 
 adding focus node to textFieldWithSubmit
+
+## 0.3.14
+adding prefix and suffix icon optional to textFieldWithSubmit
